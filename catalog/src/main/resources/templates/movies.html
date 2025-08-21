@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Movie Recommender</title>
+        <link rel="stylesheet" th:href="@{/css/movie.css}">
+    </head>
+    <body>
+        <div class="container">
+            <div class="control">
+                <h1>Movies</h1>
+
+                <form method="POST" th:action="@{/movies}">
+                    <a th:href="@{'/movies?page='+${pageNum-1}}" th:if="${pageNum} &gt; 0">
+                        <img th:src="@{/icons/prev.png}" alt="Previous sign" width="25px" height="25px"/>
+                    </a>
+                    <input type="number" name="page" id="page" th:attr="value=${pageNum}">
+                    <label for="page">of 327</label>
+                    <input type="submit" name="submit" value="" style="display:none">
+                    <a th:href="@{'/movies?page='+${pageNum+1}}" th:if="${pageNum} &lt; 327">
+                        <img th:src="@{/icons/next.png}" alt="Next sign" width="25px" height="25px" />
+                    </a>
+                </form>
+            </div>
+            <div class="catalog">
+                <div class="movie" th:each="movie: ${page}">
+                    <img th:attr="src=${movie.getCompressedJPG()},title=${movie.getTitle()},alt=${movie.getTitle()}" width="200px" height="300px">
+                    <br>
+                    <h5 th:text="${movie.getTitle()}"></h5>
+                    <p th:text="${movie.getReleaseDate()}"></p>
+                    <br>
+                    <p th:text="${movie.getRating()}"></p>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

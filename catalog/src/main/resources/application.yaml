@@ -1,0 +1,11 @@
+spring:
+    application:
+        name: catalog
+    datasource:
+        generate-unique-name: false
+        name: moviedb
+    main:
+        allow-bean-definition-overriding: true
+    session:
+        jdbc:
+            initialize-schema: always
