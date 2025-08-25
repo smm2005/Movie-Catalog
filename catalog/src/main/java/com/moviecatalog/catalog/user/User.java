@@ -42,7 +42,7 @@ public class User implements UserDetails, Persistable<Long>{
 
     @NotNull
     @Size(min=8, message="Password must be at least 8 characters long")
-    @Column(name="pass")
+    @Column(name="password")
     private final String password;
 
     @Override
@@ -72,6 +72,10 @@ public class User implements UserDetails, Persistable<Long>{
 
     public boolean isNew(){
         return this.id == null;
+    }
+
+    public String getPassword(){
+        return this.password;
     }
 
 }

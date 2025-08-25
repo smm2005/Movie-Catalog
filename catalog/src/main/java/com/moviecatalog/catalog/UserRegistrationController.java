@@ -23,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequestMapping(value="/register")
-@SessionAttributes("login")
 public class UserRegistrationController {
 
     @Autowired
@@ -46,10 +45,8 @@ public class UserRegistrationController {
         @Valid User newUser = form.toUser(passwordEncoder);
         userRepository.save(newUser);
         log.info("User registered: " + newUser);
+        log.info(userRepository.findByUsername(newUser.getUsername()).toString());
         log.info(newUser.getAuthorities().toString());
-        status.setComplete();
-
         return "redirect:/login";
     }
-    
 }

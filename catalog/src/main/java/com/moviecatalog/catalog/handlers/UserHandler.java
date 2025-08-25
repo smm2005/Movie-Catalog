@@ -9,6 +9,7 @@ import com.moviecatalog.catalog.data.UserRepository;
 import com.moviecatalog.catalog.user.User;
 import com.moviecatalog.catalog.user.UserDetailsService;
 
+/*
 @Component
 public class UserHandler implements UserDetailsService {
     
@@ -25,3 +26,4 @@ public class UserHandler implements UserDetailsService {
     }
     
 }
+*/

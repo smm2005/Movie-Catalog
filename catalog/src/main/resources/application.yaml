@@ -9,3 +9,9 @@ spring:
     session:
         jdbc:
             initialize-schema: always
+
+server:
+    servlet:
+        session:
+            cookie:
+                same-site: lax

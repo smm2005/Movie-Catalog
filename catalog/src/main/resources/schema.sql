@@ -1,12 +1,12 @@
-create table USERS(
+create table if not exists USERS(
     id serial primary key,
     realname    varchar(255) not null,
     username varchar(255) not null,
     email   varchar(255) not null,
-    pass    varchar(255) not null
+    password   varchar(MAX) not null
 );
 
-create table MOVIES(
+create table if not exists MOVIES(
     id  serial primary key,
     release_date    varchar(255) not null,
     title   varchar(255) not null,

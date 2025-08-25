@@ -26,5 +26,10 @@ public class MovieRESTController {
     public Iterable<Movie> getMoviesGivenPageNumber(@RequestParam int page){
         return movieRepository.findAll(PageRequest.of(page, 30)).getContent();
     }
+
+    @GetMapping(params={"page", "search"})
+    public Iterable<Movie> getMoviesGivenSearch(@RequestParam int page, @RequestParam String search){
+        return movieRepository.findByTitleContainingIgnoreCase(search, PageRequest.of(page, 30)).getContent();
+    }
     
 }
