@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
+import com.moviecatalog.catalog.user.User;
+
 /*
 JDBC
 -----
@@ -20,8 +22,11 @@ import org.springframework.data.relational.core.mapping.Table;
 
 // JPA
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
@@ -67,6 +72,10 @@ public class Movie implements Serializable {
     @Column(name = "poster_url")
     private String poster_url;
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
+
     public String toString(){
         return "MOVIE INFO:\t"+this.title;
     }
@@ -87,7 +96,6 @@ public class Movie implements Serializable {
             return outputImage.getName();
         }
         catch (IOException e){
-            e.printStackTrace();
             return this.poster_url;
         }
     }

@@ -3,6 +3,9 @@ package com.moviecatalog.catalog.user;
 import org.springframework.data.domain.Persistable;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.moviecatalog.catalog.movie.Movie;
+import com.moviecatalog.catalog.movie.Favourite;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -24,7 +27,7 @@ public class User implements UserDetails, Persistable<Long>{
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id", nullable=false, updatable=false)
+    @Column(name="user_id", nullable=false, updatable=false)
     private Long id;
 
     @NotNull
@@ -44,6 +47,9 @@ public class User implements UserDetails, Persistable<Long>{
     @Size(min=8, message="Password must be at least 8 characters long")
     @Column(name="password")
     private final String password;
+
+    private Set<Long> favourites;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
@@ -77,5 +83,4 @@ public class User implements UserDetails, Persistable<Long>{
     public String getPassword(){
         return this.password;
     }
-
 }

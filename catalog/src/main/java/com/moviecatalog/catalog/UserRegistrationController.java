@@ -4,13 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.moviecatalog.catalog.data.UserRepository;
@@ -41,9 +37,10 @@ public class UserRegistrationController {
     }
 
     @PostMapping
-    public String registerUser(RegistrationForm form, SessionStatus status) {
+    public String registerUser(RegistrationForm form, SessionStatus status, Model model) {
         @Valid User newUser = form.toUser(passwordEncoder);
         userRepository.save(newUser);
+        model.addAttribute("user", newUser.getRealname());
         log.info("User registered: " + newUser);
         log.info(userRepository.findByUsername(newUser.getUsername()).toString());
         log.info(newUser.getAuthorities().toString());

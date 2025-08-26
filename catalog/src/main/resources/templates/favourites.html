@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Movie Recommender</title>
+        <link rel="stylesheet" th:href="@{/css/movie.css}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Your favourites: </h1>
+            <div class="catalog">
+                <div class="movie" th:each="movie: ${favourites}">
+                    <img th:attr="src=${movie.getCompressedJPG()},title=${movie.getTitle()},alt=${movie.getTitle()}" width="200px" height="300px">
+                    <br>
+                    <h5 th:text="${movie.getTitle()}"></h5>
+                    <p th:text="${movie.getReleaseDate()}"></p>
+                    <br>
+                    <p th:text="${movie.getRating()}"></p> 
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
