@@ -24,6 +24,7 @@ import org.springframework.data.relational.core.mapping.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -43,6 +44,7 @@ public class Movie implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "movie_id")
     private Long id;
 
     @Column(name = "release_date")
@@ -72,9 +74,8 @@ public class Movie implements Serializable {
     @Column(name = "poster_url")
     private String poster_url;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="user_id")
-    private User user;
+    @OneToOne(targetEntity=Favourite.class, mappedBy="movie")
+    private Favourite favourite;
 
     public String toString(){
         return "MOVIE INFO:\t"+this.title;

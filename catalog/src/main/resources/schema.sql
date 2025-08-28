@@ -7,7 +7,7 @@ create table if not exists USERS(
 );
 
 create table if not exists MOVIES(
-    user_id  serial primary key,
+    movies_id  serial primary key,
     release_date    varchar(255) not null,
     title   varchar(255) not null,
     overview text not null,
@@ -21,8 +21,10 @@ create table if not exists MOVIES(
 
 create table if not exists FAVOURITES(
     favourite_id serial primary key,
+    user_id bigint not null,
     movie_id bigint not null,
     created_at timestamp not null,
-    constraint fk_movie_id foreign key (movie_id) references MOVIES(user_id)
+    constraint fk_user_id foreign key (user_id) references USERS(id),
+    constraint fk_movie_id foreign key (movie_id) references MOVIES(movies_id)
 );
     

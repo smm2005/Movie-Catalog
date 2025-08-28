@@ -48,7 +48,8 @@ public class User implements UserDetails, Persistable<Long>{
     @Column(name="password")
     private final String password;
 
-    private Set<Long> favourites;
+    @OneToMany(targetEntity = Favourite.class, mappedBy = "user")
+    private Set<Favourite> favourites;
 
 
     @Override
