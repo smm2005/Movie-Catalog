@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.moviecatalog.catalog.user.User;
 
 /*
@@ -75,6 +77,7 @@ public class Movie implements Serializable {
     private String poster_url;
 
     @OneToOne(targetEntity=Favourite.class, mappedBy="movie")
+    @JsonIgnore
     private Favourite favourite;
 
     public String toString(){

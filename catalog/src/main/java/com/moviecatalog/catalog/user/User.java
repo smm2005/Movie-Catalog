@@ -4,6 +4,7 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.moviecatalog.catalog.movie.Movie;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.moviecatalog.catalog.movie.Favourite;
 
 import jakarta.persistence.*;
@@ -49,6 +50,7 @@ public class User implements UserDetails, Persistable<Long>{
     private final String password;
 
     @OneToMany(targetEntity = Favourite.class, mappedBy = "user")
+    @JsonManagedReference
     private Set<Favourite> favourites;
 
 

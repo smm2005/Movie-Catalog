@@ -2,6 +2,7 @@ package com.moviecatalog.catalog.movie;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.moviecatalog.catalog.user.User;
 
 import jakarta.persistence.Column;
@@ -36,6 +37,7 @@ public class Favourite {
 
     @ManyToOne
     @JoinColumn(name="user_id", referencedColumnName = "user_id")
+    @JsonBackReference
     private User user;
 
     @OneToOne
