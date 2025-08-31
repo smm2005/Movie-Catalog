@@ -8,7 +8,7 @@
         <div class="container">
             <h1>Your favourites: </h1>
             <div class="catalog">
-                <div class="movie" th:each="movie: ${favourites}">
+                <div class="favourite" th:each="favourite: ${favourites}" th:if="${favourite.getUser()} == ${user}" th:with="movie = ${favourite.getMovie()}">
                     <img th:attr="src=${movie.getCompressedJPG()},title=${movie.getTitle()},alt=${movie.getTitle()}" width="200px" height="300px">
                     <br>
                     <h5 th:text="${movie.getTitle()}"></h5>

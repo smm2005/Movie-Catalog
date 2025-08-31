@@ -34,12 +34,8 @@ public class FavouritesController {
     public UserRepository userRepository;
 
     @ModelAttribute(name="favourites")
-    public List<Movie> addUserFavouritesToModel(Model model){
-        List<Movie> favourites = new ArrayList<>();
-        for (Favourite favourite : favouriteRepository.findAll()){
-            favourites.add(movieRepository.findById(favourite.getMovie().getId()).get());
-        }
-        return favourites;
+    public List<Favourite> addUserFavouritesToModel(Model model){
+        return favouriteRepository.findAll();
     }
 
     @GetMapping
