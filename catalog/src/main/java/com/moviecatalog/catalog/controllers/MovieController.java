@@ -110,7 +110,7 @@ public class MovieController {
 
     @PostMapping(path="/", params="search")
     public String getSearchedMoviesGivenPageNumber(@RequestParam int page, @RequestParam String search) {
-        if (search == ""){
+        if (search == "" || search == null){
             return "redirect:/movies?page=0";
         }
         if (page <= 0){
