@@ -39,6 +39,7 @@ public class MovieController {
     FavouriteRepository favouriteRepository;
 
     public boolean search_mode = false;
+    public int page_count = -1;
 
     @ModelAttribute(name="movies")
     public void addMoviesToModel(Model model){
@@ -71,7 +72,7 @@ public class MovieController {
     @GetMapping(params = "page")
     public String showMoviesPerPage(@RequestParam(defaultValue="0") int page, Model model){
         Iterable<Movie> movies = movieRepo.findAll(PageRequest.of(page, 30));
-        int page_count = movieRepo.findAll().size() / 30;
+        page_count = movieRepo.findAll().size() / 30;
         search_mode = false;
         model.addAttribute("page", movies);
         model.addAttribute("pageNum", page);
@@ -81,13 +82,19 @@ public class MovieController {
 
     @GetMapping(path="/search", params={"page", "search"})
     public String getSearchedMovies(@RequestParam(defaultValue="0") int page, @RequestParam String search, Model model) {
-        List<Movie> movies = movieRepo.findByTitleContainingIgnoreCase(search, PageRequest.of(page, 30)).getContent();
-        int page_count = movies.size() / 30;
-        search_mode = true;
-        model.addAttribute("page", movies);
-        model.addAttribute("pageNum", 0);
-        model.addAttribute("pageCount", page_count);
-        return "movies";
+        if (search != null){
+            List<Movie> movies = movieRepo.findByTitleContainingIgnoreCase(search, PageRequest.of(page, 30)).getContent();
+            page_count = movies.size() / 30;
+            search_mode = true;
+            model.addAttribute("page", movies);
+            model.addAttribute("pageNum", 0);
+            model.addAttribute("pageCount", page_count);
+            model.addAttribute("search", search);
+            return "movies";
+        }
+        else{
+            return "redirect:/movies?page=0";
+        }
     }
 
     @PostMapping
@@ -106,10 +113,10 @@ public class MovieController {
         if (page <= 0){
             return "redirect:/movies?page=0&search="+search;
         }
-        else if (page > 327){
-            return "redirect:/movies?page=327&search="+search;
+        else if (page > page_count){
+            return "redirect:/movies?page=" + Integer.toString(page_count) + "&search=" + search;
         }
-        return "redirect:/movies?page=" + Integer.toString(page) + "&search="+search;
+        return "redirect:/movies?page=" + Integer.toString(page) + "&search=" +search;
     }
 
     @PostMapping(params="movie")
@@ -135,8 +142,7 @@ public class MovieController {
 
     @PostMapping(params="search")
     public String searchMovies(@RequestParam int page, @RequestParam String search, Model model){
-        model.addAttribute("search", search);
-        return "redirect:/movies/search?page="+Integer.toString(page)+"&search="+search;
+        return "redirect:/movies/search?page=0&search="+search;
     }
     
     
