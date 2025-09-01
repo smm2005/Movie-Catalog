@@ -80,7 +80,7 @@ public class MovieController {
         return "movies";
     }
 
-    @GetMapping(path="/search", params={"page", "search"})
+    @GetMapping(params={"page", "search"})
     public String getSearchedMovies(@RequestParam(defaultValue="0") int page, @RequestParam String search, Model model) {
         if (search != null){
             List<Movie> movies = movieRepo.findByTitleContainingIgnoreCase(search, PageRequest.of(page, 30)).getContent();
@@ -97,7 +97,7 @@ public class MovieController {
         }
     }
 
-    @PostMapping
+    @PostMapping(path="/", params="page")
     public String getMoviesGivenPageNumber(@RequestParam int page) {
         if (page <= 0){
             return "redirect:/movies?page=0";
@@ -108,8 +108,11 @@ public class MovieController {
         return "redirect:/movies?page=" + Integer.toString(page);
     }
 
-    @PostMapping(path="/search")
+    @PostMapping(path="/", params="search")
     public String getSearchedMoviesGivenPageNumber(@RequestParam int page, @RequestParam String search) {
+        if (search == ""){
+            return "redirect:/movies?page=0";
+        }
         if (page <= 0){
             return "redirect:/movies?page=0&search="+search;
         }
@@ -142,7 +145,7 @@ public class MovieController {
 
     @PostMapping(params="search")
     public String searchMovies(@RequestParam int page, @RequestParam String search, Model model){
-        return "redirect:/movies/search?page=0&search="+search;
+        return "redirect:/movies?page=0&search="+search;
     }
     
     

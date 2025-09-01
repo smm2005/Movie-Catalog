@@ -19,21 +19,20 @@
                     <a th:href="@{'/movies?page='+${pageNum+1}}" th:if="${pageNum} &lt; 327">
                         <img th:src="@{/icons/next.png}" alt="Next sign" width="25px" height="25px" />
                     </a>
+                    <input type="text" name="search" id="search" th:attr="value=${search}">
+                    <input type="submit" value="Search">
                 </form>
 
-                <form method="POST" th:action="@{/movies/search}" th:if="${search_mode} == true">
-                    <a th:href="@{'/movies/search?page='+${pageNum-1}+'&search='+${search}}" th:if="${pageNum} &gt; 0">
+                <form method="POST" th:action="@{/movies}" th:if="${search_mode} == true">
+                    <a th:href="@{'/movies?page='+${pageNum-1}+'&search='+${search}}" th:if="${pageNum} &gt; 0">
                         <img th:src="@{/icons/prev.png}" alt="Previous sign" width="25px" height="25px"/>
                     </a>
                     <input type="number" name="page" id="page" th:attr="value=${pageNum}">
                     <label for="page" th:text="'of ' + ${pageCount}"></label>
                     <input type="submit" name="submit" value="" style="display:none">
-                    <a th:href="@{'/movies/search?page='+${pageNum+1}+'&search='+${search}}" th:if="${pageNum} &lt; 327">
+                    <a th:href="@{'/movies?page='+${pageNum+1}+'&search='+${search}}" th:if="${pageNum} &lt; ${pageCount}">
                         <img th:src="@{/icons/next.png}" alt="Next sign" width="25px" height="25px" />
                     </a>
-                </form>
-
-                <form method="POST" th:action="@{'/movies?page='+${pageNum}}">
                     <input type="text" name="search" id="search" th:attr="value=${search}">
                     <input type="submit" value="Search">
                 </form>
