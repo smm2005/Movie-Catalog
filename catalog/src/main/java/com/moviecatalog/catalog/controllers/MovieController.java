@@ -2,7 +2,6 @@ package com.moviecatalog.catalog.controllers;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -97,7 +96,7 @@ public class MovieController {
         }
     }
 
-    @PostMapping(path="/", params="page")
+    @PostMapping(params="page")
     public String getMoviesGivenPageNumber(@RequestParam int page) {
         if (page <= 0){
             return "redirect:/movies?page=0";
@@ -108,7 +107,7 @@ public class MovieController {
         return "redirect:/movies?page=" + Integer.toString(page);
     }
 
-    @PostMapping(path="/", params="search")
+    @PostMapping(params={"page", "search"})
     public String getSearchedMoviesGivenPageNumber(@RequestParam int page, @RequestParam String search) {
         if (search == "" || search == null){
             return "redirect:/movies?page=0";
@@ -142,11 +141,5 @@ public class MovieController {
             return "redirect:/login";
         }
     }
-
-    @PostMapping(params="search")
-    public String searchMovies(@RequestParam int page, @RequestParam String search, Model model){
-        return "redirect:/movies?page=0&search="+search;
-    }
-    
     
 }
