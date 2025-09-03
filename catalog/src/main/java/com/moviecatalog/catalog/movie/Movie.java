@@ -34,8 +34,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 
-@Entity
-@Table(name="MOVIES")
+@Entity(name="movies")
+@Table(name="movies")
 @Data
 @Builder
 @NoArgsConstructor

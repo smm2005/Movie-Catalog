@@ -33,11 +33,6 @@ public class FavouritesController {
     @Autowired
     public UserRepository userRepository;
 
-    @ModelAttribute(name="favourites")
-    public List<Favourite> addUserFavouritesToModel(Model model){
-        return favouriteRepository.findAll();
-    }
-
     @GetMapping
     public String viewAllFavourites(){
         return "favourites";

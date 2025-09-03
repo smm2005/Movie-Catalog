@@ -46,6 +46,8 @@
                 </form>
 
                 <h3 th:text="${user}"></h3>
+
+                <a th:href="@{/}">Back To Home</a>
             </div>
             <div class="catalog">
                 <div class="movie" th:each="movie: ${page}">

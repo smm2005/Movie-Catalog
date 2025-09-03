@@ -23,7 +23,7 @@ create table if not exists FAVOURITES(
     favourite_id serial primary key,
     user_id bigint not null,
     movie_id bigint not null,
-    created_at timestamp not null,
+    created timestamp not null,
     constraint fk_user_id foreign key (user_id) references USERS(id),
     constraint fk_movie_id foreign key (movie_id) references MOVIES(movies_id)
 );

@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name="favourites")
 @Data
 @Table(name="favourites")
 @NoArgsConstructor
@@ -32,7 +32,7 @@ public class Favourite {
     @Column(name="favourite_id")
     private Long id;
 
-    @Column(name="created_at")
+    @Column(name="created")
     private Date date;
 
     @ManyToOne

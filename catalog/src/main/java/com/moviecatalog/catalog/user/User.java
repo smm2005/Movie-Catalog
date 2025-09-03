@@ -51,8 +51,7 @@ public class User implements UserDetails, Persistable<Long>{
 
     @OneToMany(targetEntity = Favourite.class, mappedBy = "user")
     @JsonManagedReference
-    private Set<Favourite> favourites;
-
+    private Set<Favourite> favourites = new HashSet<Favourite>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){

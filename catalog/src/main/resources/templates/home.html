@@ -12,6 +12,17 @@
                 <a th:href="@{'/register'}">Register Account</a>
                 <br>
                 <a th:href="@{'/login'}">Sign Up</a>
+                <div th:if="${favouritesLength} &ge; 5">
+                    <h2>Movies closest to your rating preference are</h2>
+                    <div class="recommendations" th:each="movie: ${movieRecommendations}">
+                        <img th:attr="src=${movie.getCompressedJPG()},title=${movie.getTitle()},alt=${movie.getTitle()}" width="200px" height="300px">
+                        <br>
+                        <h5 th:text="${movie.getTitle()}"></h5>
+                        <p th:text="${movie.getReleaseDate()}"></p>
+                        <br>
+                        <p th:text="${movie.getRating()}"></p>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
