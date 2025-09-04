@@ -19,6 +19,7 @@ import com.moviecatalog.catalog.data.FavouriteRepository;
 import com.moviecatalog.catalog.data.MovieRepository;
 import com.moviecatalog.catalog.movie.Favourite;
 import com.moviecatalog.catalog.movie.Movie;
+import com.moviecatalog.catalog.recommender.Recommender;
 import com.moviecatalog.catalog.user.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +38,12 @@ public class MovieController {
     @Autowired
     FavouriteRepository favouriteRepository;
 
+    @Autowired
+    Recommender recommender;
+
     public boolean search_mode = false;
     public int page_count = -1;
+    
 
     @ModelAttribute(name="movies")
     public void addMoviesToModel(Model model){
@@ -133,8 +138,13 @@ public class MovieController {
             favourite.setDate(new Date());
             favourite.setUser(currentUser);
             favourite.setMovie(movieRepo.findById(movieId).get());
-            favouriteRepository.save(favourite);
-            log.info(movieRepo.findById(movieId).get().getTitle() + " added to user: " + currentUser.getRealname());
+            try{
+                favouriteRepository.save(favourite);
+                log.info(movieRepo.findById(movieId).get().getTitle() + " added to user: " + currentUser.getRealname());
+            }
+            catch (Exception e){
+                // DO NOTHING
+            }
             return "redirect:/movies?page=" + Integer.toString(page);
         }
         else{

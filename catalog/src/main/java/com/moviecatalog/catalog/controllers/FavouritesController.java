@@ -15,6 +15,7 @@ import com.moviecatalog.catalog.data.MovieRepository;
 import com.moviecatalog.catalog.data.UserRepository;
 import com.moviecatalog.catalog.movie.Favourite;
 import com.moviecatalog.catalog.movie.Movie;
+import com.moviecatalog.catalog.recommender.Recommender;
 import com.moviecatalog.catalog.user.User;
 
 import java.util.ArrayList;
@@ -32,6 +33,19 @@ public class FavouritesController {
 
     @Autowired
     public UserRepository userRepository;
+
+    @Autowired
+    public Recommender recommender;
+
+    @ModelAttribute(name="favourites")
+    public void addUserFavouritesToModel(Model model){
+        model.addAttribute("favourites", favouriteRepository.findAll());
+    }
+
+    @ModelAttribute(name="recommendations")
+    public void addRecommendationsToModel(Model model){
+        model.addAttribute("recommendations", recommender.getRecommendations());
+    }
 
     @GetMapping
     public String viewAllFavourites(){

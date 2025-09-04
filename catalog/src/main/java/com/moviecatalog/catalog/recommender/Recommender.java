@@ -6,6 +6,8 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 
 import com.moviecatalog.catalog.data.FavouriteRepository;
 import com.moviecatalog.catalog.data.MovieRepository;
@@ -14,9 +16,11 @@ import com.moviecatalog.catalog.movie.Movie;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Data
 @NoArgsConstructor
+@Component
 public class Recommender {
     
     @Autowired
@@ -32,7 +36,12 @@ public class Recommender {
         .map(favourite -> favourite.getMovie())
         .collect(Collectors.toList());
         int moviesLength = movies.size();
-        return movies.subList(moviesLength - 5, moviesLength);
+        if (moviesLength <= 5){
+            return movies;
+        }
+        else{
+            return movies.subList(moviesLength - 5, moviesLength);   
+        }
     }
 
     public Float getRatingAverage(){
@@ -49,6 +58,7 @@ public class Recommender {
 
     public List<Movie> getRecommendations(){
         List<Movie> movies = movieRepository.findFirst5ByRating(getRatingAverage());
+        System.out.println(movies);
         return movies;
     }
 
