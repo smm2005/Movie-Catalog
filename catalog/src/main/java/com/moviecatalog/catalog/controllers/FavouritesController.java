@@ -42,11 +42,6 @@ public class FavouritesController {
         model.addAttribute("favourites", favouriteRepository.findAll());
     }
 
-    @ModelAttribute(name="recommendations")
-    public void addRecommendationsToModel(Model model){
-        model.addAttribute("recommendations", recommender.getRecommendations());
-    }
-
     @GetMapping
     public String viewAllFavourites(){
         return "favourites";

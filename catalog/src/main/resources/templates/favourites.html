@@ -8,17 +8,6 @@
         <div class="container">
             <h1>Your favourites: </h1>
             <div class="catalog">
-                <div class="recommendations" th:unless="${favourites} == null">
-                    <h2>Movies closest to your rating preference are</h2>
-                    <div class="recommendation" th:each="movie: ${recommendations}">
-                        <img th:attr="src=${movie.getCompressedJPG()},title=${movie.getTitle()},alt=${movie.getTitle()}" width="200px" height="300px">
-                        <br>
-                        <h5 th:text="${movie.getTitle()}"></h5>
-                        <p th:text="${movie.getReleaseDate()}"></p>
-                        <br>
-                        <p th:text="${movie.getRating()}"></p>
-                    </div>
-                </div>
                 <div class="favourite" th:each="favourite: ${favourites}" th:with="movie = ${favourite.getMovie()}">
                     <img th:attr="src=${movie.getCompressedJPG()},title=${movie.getTitle()},alt=${movie.getTitle()}" width="200px" height="300px">
                     <br>
@@ -29,6 +18,5 @@
                 </div>
             </div>
         </div>
-
     </body>
 </html>
