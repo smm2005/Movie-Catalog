@@ -4,7 +4,10 @@ import com.moviecatalog.catalog.movie.Favourite;
 import com.moviecatalog.catalog.movie.Movie;
 import com.moviecatalog.catalog.user.User;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,7 @@ import com.moviecatalog.catalog.data.FavouriteRepository;
 import com.moviecatalog.catalog.data.MovieRepository;
 import com.moviecatalog.catalog.data.UserRepository;
 
+@Slf4j
 @RestController
 @RequestMapping(path="/api/favourites", produces="application/json")
 @CrossOrigin(origins="http://localhost:8080")
@@ -37,6 +41,9 @@ public class FavouriteRESTController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MovieRepository movieRepo;
 
     @GetMapping
     public Iterable<Favourite> getAllFavourites() {

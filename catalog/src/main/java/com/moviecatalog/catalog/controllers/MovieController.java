@@ -19,7 +19,6 @@ import com.moviecatalog.catalog.data.FavouriteRepository;
 import com.moviecatalog.catalog.data.MovieRepository;
 import com.moviecatalog.catalog.movie.Favourite;
 import com.moviecatalog.catalog.movie.Movie;
-import com.moviecatalog.catalog.recommender.Recommender;
 import com.moviecatalog.catalog.user.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,9 +36,6 @@ public class MovieController {
 
     @Autowired
     FavouriteRepository favouriteRepository;
-
-    @Autowired
-    Recommender recommender;
 
     public boolean search_mode = false;
     public int page_count = -1;
