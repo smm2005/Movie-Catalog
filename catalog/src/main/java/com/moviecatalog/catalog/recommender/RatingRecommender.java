@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@Component
 public class RatingRecommender implements Recommender{
     
     @Autowired
@@ -28,6 +27,7 @@ public class RatingRecommender implements Recommender{
     @Autowired
     private FavouriteRepository favouriteList;
 
+    @Override
     public List<Movie> getMovies(){
         List<Movie> movies = favouriteList
         .findAll()
@@ -43,7 +43,8 @@ public class RatingRecommender implements Recommender{
         }
     }
 
-    public Float getMetricAverage(){
+    @Override
+    public Float getMetric(){
         List<Float> ratings = getMovies()
         .stream()
         .map(movie -> movie.getRating())
@@ -55,8 +56,9 @@ public class RatingRecommender implements Recommender{
         return (float) (Math.round((total / ratings.size()) * 10.0) / 10.0);
     }
 
+    @Override
     public List<Movie> getRecommendations(){
-        List<Movie> movies = movieRepository.findFirst5ByRating(getMetricAverage());
+        List<Movie> movies = movieRepository.findFirst5ByRating(getMetric());
         System.out.println(movies);
         return movies;
     }

@@ -15,8 +15,8 @@ import com.moviecatalog.catalog.data.MovieRepository;
 import com.moviecatalog.catalog.data.UserRepository;
 import com.moviecatalog.catalog.movie.Favourite;
 import com.moviecatalog.catalog.movie.Movie;
-import com.moviecatalog.catalog.recommender.RatingRecommender;
-import com.moviecatalog.catalog.recommender.Recommender;
+import com.moviecatalog.catalog.recommender.GenreRecommender;
+import com.moviecatalog.catalog.recommender.*;
 import com.moviecatalog.catalog.user.User;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class ProfileController {
     public UserRepository userRepository;
 
     @Autowired
-    public RatingRecommender recommender;
+    public GenreRecommender recommender;
 
     @ModelAttribute(name="user")
     public void addUserToModel(Model model){

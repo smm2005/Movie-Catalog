@@ -5,9 +5,7 @@ import com.moviecatalog.catalog.movie.Movie;
 
 
 public interface Recommender {
-
     List<Movie> getMovies();
-    Float getMetricAverage();
+    Object getMetric();
     List<Movie> getRecommendations();
-
 }
