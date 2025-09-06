@@ -36,7 +36,7 @@ public class ProfileController {
     public UserRepository userRepository;
 
     @Autowired
-    public GenreRecommender recommender;
+    public TitleRecommender recommender;
 
     @ModelAttribute(name="user")
     public void addUserToModel(Model model){

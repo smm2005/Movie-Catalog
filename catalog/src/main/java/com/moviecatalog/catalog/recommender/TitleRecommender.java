@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,13 @@ import com.moviecatalog.catalog.movie.Movie;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.Collections;
+import java.util.Comparator;
 
+@Component
 @Data
 @NoArgsConstructor
-public class GenreRecommender implements Recommender{
+public class TitleRecommender implements Recommender{
     
     @Autowired
     private MovieRepository movieRepository;
@@ -45,48 +49,47 @@ public class GenreRecommender implements Recommender{
         }
     }
 
+    public String getFirstTwoWords(String title){
+        String[] words = title.split(" ");
+        return words[0] + " " + words[1];
+    }
+
     @Override
     public String getMetric(){
-        List<String> genres = getMovies()
+        List<String> titles = getMovies()
         .stream()
-        .map(movie -> movie.getGenre())
+        .map(movie -> getFirstTwoWords(movie.getTitle()))
         .collect(Collectors.toList());
-        TreeMap<String, Integer> genreCount = new TreeMap<>();
-        for (String genre : genres){
-            if (genre.contains(",")){
-                for (String subGenre : genre.split(", ")){
-                    if (genreCount.containsKey(subGenre)){
-                        genreCount.put(subGenre, genreCount.get(subGenre) + 1);
-                    }
-                    else{
-                        genreCount.put(subGenre, 1);
-                    }
-                }
+        TreeMap<String, Integer> titleCount = new TreeMap<>();
+        for (String title : titles){
+            if (titleCount.containsKey(title)){
+                titleCount.put(title, titleCount.get(title) + 1);
             }
             else{
-                if (genreCount.containsKey(genre)){
-                    genreCount.put(genre, genreCount.get(genre) + 1);
+                titleCount.put(title, 1);
+            }
+        }
+        TreeSet<String> sortedTitles = new TreeSet<>(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                if (titleCount.get(o1) > titleCount.get(o2)){
+                    return 1;
+                }
+                else if (titleCount.get(o1) < titleCount.get(o2)){
+                    return -1;
                 }
                 else{
-                    genreCount.put(genre, 1);
+                    return 0;
                 }
             }
-        }
-        String[] genreKeys = genreCount.keySet().toArray(new String[0]);
-        int max = -1;
-        String coreGenre = "";
-        for (String genre: genreKeys){
-            if (genreCount.get(genre) > max){
-                max = genreCount.get(genre);
-                coreGenre = genre;
-            }
-        }
-        return coreGenre;
+        });
+        sortedTitles.addAll(titleCount.keySet());
+        return sortedTitles.first();
     }
 
     @Override
     public List<Movie> getRecommendations(){
-        List<Movie> movies = movieRepository.findFirst5ByGenre(getMetric());
+        List<Movie> movies = movieRepository.findFirst5ByTitleContainingIgnoreCase(getMetric());
         System.out.println(movies);
         return movies;
     }
