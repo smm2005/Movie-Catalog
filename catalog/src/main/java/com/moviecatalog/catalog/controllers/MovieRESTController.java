@@ -48,8 +48,8 @@ public class MovieRESTController {
         return movieRepository.findByTitleContainingIgnoreCase(search, PageRequest.of(page, 30)).getContent();
     }
 
-    @GetMapping("/{id}")
-    public Movie getMovieById(@PathVariable("id") int ident){
+    @GetMapping(params={"id"})
+    public Movie getMovieById(@RequestParam int ident){
         return movieRepository.findById(Integer.toUnsignedLong(ident)).get();
     }
 

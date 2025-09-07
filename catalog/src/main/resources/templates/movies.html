@@ -49,18 +49,8 @@
 
                 <a th:href="@{/}">Back To Home</a>
             </div>
-            <div class="catalog">
-                <div class="movie" th:each="movie: ${page}">
-                    <img th:attr="src=${movie.getCompressedJPG()},title=${movie.getTitle()},alt=${movie.getTitle()}" width="200px" height="300px">
-                    <br>
-                    <h5 th:text="${movie.getTitle()}"></h5>
-                    <p th:text="${movie.getReleaseDate()}"></p>
-                    <br>
-                    <p th:text="${movie.getRating()}"></p> 
-                    <form method="POST" th:action="@{'/movies?page=' + ${pageNum} + '&movie=' + ${movie.getId()}}">
-                        <input type="submit" value="Add to watchlist">
-                    </form>
-                </div>
+            <script th:src="@{/scripts/movies.js}"></script>
+            <div class="catalog" id="catalog">
             </div>
         </div>
 
