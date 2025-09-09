@@ -1,4 +1,4 @@
-package com.moviecatalog.catalog.controllers;
+package com.moviecatalog.catalog.controllers.mvc;
 
 import java.util.Date;
 import java.util.List;
@@ -9,11 +9,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.client.RestTemplate;
 
 import com.moviecatalog.catalog.data.FavouriteRepository;
 import com.moviecatalog.catalog.data.MovieRepository;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @RequestMapping("/movies")
 @SessionAttributes("catalog")
+@CrossOrigin
 public class MovieController {
 
     @Autowired
@@ -39,13 +42,6 @@ public class MovieController {
 
     public boolean search_mode = false;
     public int page_count = -1;
-    
-
-    @ModelAttribute(name="movies")
-    public void addMoviesToModel(Model model){
-        Iterable<Movie> movies = movieRepo.findAll();
-        model.addAttribute("movies", movies);
-    }
 
     @ModelAttribute(name="user")
     public void addUserToModel(Model model){
@@ -64,19 +60,13 @@ public class MovieController {
         model.addAttribute("search_mode", search_mode);
     }
 
-    @GetMapping
-    public String showMovies(){
-        return "movies";
-    }
-
     @GetMapping(params = "page")
     public String showMoviesPerPage(@RequestParam(defaultValue="0") int page, Model model){
         Iterable<Movie> movies = movieRepo.findAll(PageRequest.of(page, 30));
-        page_count = movieRepo.findAll().size() / 30;
         search_mode = false;
+        page_count = movieRepo.findAll().size() / 30;
         model.addAttribute("page", movies);
         model.addAttribute("pageNum", page);
-        model.addAttribute("pageCount", page_count);
         return "movies";
     }
 
@@ -93,6 +83,7 @@ public class MovieController {
             return "movies";
         }
         else{
+            search_mode = false;
             return "redirect:/movies?page="+Integer.toString(page);
         }
     }
@@ -126,17 +117,24 @@ public class MovieController {
     public String addMovieToUser(@RequestParam int page, @RequestParam int movie){
         
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Favourite favourite = new Favourite();
         Long movieId = Integer.toUnsignedLong(movie);
 
         if (authentication != null && authentication.isAuthenticated()){
-            User currentUser = (User) authentication.getPrincipal();
-            favourite.setDate(new Date());
-            favourite.setUser(currentUser);
-            favourite.setMovie(movieRepo.findById(movieId).get());
             try{
-                favouriteRepository.save(favourite);
-                log.info(movieRepo.findById(movieId).get().getTitle() + " added to user: " + currentUser.getRealname());
+                User currentUser = (User) authentication.getPrincipal();
+                Favourite favourite = new Favourite();
+                Movie currentMovie = movieRepo.findById(movieId).get();
+                favourite.setDate(new Date());
+                favourite.setUser(currentUser);
+                favourite.setMovie(currentMovie);
+                try{
+                    log.info(currentMovie.getTitle() + " added to user: " + currentUser.getRealname());
+                    favouriteRepository.save(favourite);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    return null;
+                }
             }
             catch (Exception e){
                 // DO NOTHING

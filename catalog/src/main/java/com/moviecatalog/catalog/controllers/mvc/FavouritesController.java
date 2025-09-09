@@ -1,4 +1,4 @@
-package com.moviecatalog.catalog.controllers;
+package com.moviecatalog.catalog.controllers.mvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,16 +15,15 @@ import com.moviecatalog.catalog.data.MovieRepository;
 import com.moviecatalog.catalog.data.UserRepository;
 import com.moviecatalog.catalog.movie.Favourite;
 import com.moviecatalog.catalog.movie.Movie;
-import com.moviecatalog.catalog.recommender.GenreRecommender;
-import com.moviecatalog.catalog.recommender.*;
+import com.moviecatalog.catalog.recommender.Recommender;
 import com.moviecatalog.catalog.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/profile")
-public class ProfileController {
+@RequestMapping("/favourites")
+public class FavouritesController {
     
     @Autowired
     public FavouriteRepository favouriteRepository;
@@ -36,24 +35,7 @@ public class ProfileController {
     public UserRepository userRepository;
 
     @Autowired
-    public TitleRecommender recommender;
-
-    @ModelAttribute(name="user")
-    public void addUserToModel(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()){
-            User currentUser = (User) authentication.getPrincipal();
-            model.addAttribute("user", currentUser.getRealname());
-        }
-        else{
-            model.addAttribute("user", "Guest");
-        }
-    }
-
-    @ModelAttribute(name="recommendations")
-    public void addRecommendationsToModel(Model model){
-        model.addAttribute("recommendations", recommender.getRecommendations());
-    }
+    public Recommender recommender;
 
     @ModelAttribute(name="favourites")
     public void addUserFavouritesToModel(Model model){
@@ -61,8 +43,8 @@ public class ProfileController {
     }
 
     @GetMapping
-    public String viewProfile(){
-        return "profile";
+    public String viewAllFavourites(){
+        return "favourites";
     }
 
 }

@@ -1,4 +1,4 @@
-package com.moviecatalog.catalog.controllers;
+package com.moviecatalog.catalog.controllers.mvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/favourites")
-public class FavouritesController {
+@RequestMapping("/card")
+public class CardController {
     
     @Autowired
     public FavouriteRepository favouriteRepository;
@@ -37,14 +37,11 @@ public class FavouritesController {
     @Autowired
     public Recommender recommender;
 
-    @ModelAttribute(name="favourites")
-    public void addUserFavouritesToModel(Model model){
-        model.addAttribute("favourites", favouriteRepository.findAll());
-    }
-
-    @GetMapping
-    public String viewAllFavourites(){
-        return "favourites";
+    @GetMapping(params="movie")
+    public String viewMovie(@RequestParam int movie, Model model){
+        Movie currentMovie = movieRepository.findById(Integer.toUnsignedLong(movie)).get();
+        model.addAttribute("movie", currentMovie);
+        return "card";
     }
 
 }

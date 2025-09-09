@@ -1,4 +1,4 @@
-package com.moviecatalog.catalog.controllers;
+package com.moviecatalog.catalog.controllers.rest;
 
 import com.moviecatalog.catalog.movie.Movie;
 import com.moviecatalog.catalog.user.User;

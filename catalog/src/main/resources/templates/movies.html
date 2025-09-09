@@ -15,7 +15,7 @@
                             <img th:src="@{/icons/prev.png}" alt="Previous sign" width="25px" height="25px"/>
                         </a>
                         <input type="number" name="page" id="page" th:attr="value=${pageNum}">
-                        <label for="page" th:text="'of ' + ${pageCount}"></label>
+                        <label for="page" th:text="'of ' + 327"></label>
                         <input type="submit" name="submit" value="" style="display:none">
                         <a th:href="@{'/movies?page='+${pageNum+1}}" th:if="${pageNum} &lt; 327">
                             <img th:src="@{/icons/next.png}" alt="Next sign" width="25px" height="25px" />

@@ -1,4 +1,4 @@
-package com.moviecatalog.catalog.controllers;
+package com.moviecatalog.catalog.controllers.rest;
 
 import com.moviecatalog.catalog.movie.Favourite;
 import com.moviecatalog.catalog.movie.Movie;
@@ -21,10 +21,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.moviecatalog.catalog.data.FavouriteRepository;
 import com.moviecatalog.catalog.data.MovieRepository;
@@ -45,6 +48,8 @@ public class FavouriteRESTController {
     @Autowired
     private MovieRepository movieRepo;
 
+    RestTemplate rest = new RestTemplate();
+
     @GetMapping
     public Iterable<Favourite> getAllFavourites() {
         return favouriteRepository.findAll();
@@ -60,18 +65,27 @@ public class FavouriteRESTController {
         return favouriteRepository.findAllByUser(userRepository.getReferenceById(Integer.toUnsignedLong(user)));
     }
 
-    /*
-    @PatchMapping(path="/{id}", consumes="application/json")
-    public ResponseEntity<User> addMovieToLoggedUser(@PathVariable("id") int ident, @RequestBody Movie movie){
+    @PostMapping(consumes="application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Favourite addMovieToFavourites(@RequestBody Movie movie){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()){
             User currentUser = (User) authentication.getPrincipal();
-            currentUser.addMovie(movie);
-            return ResponseEntity.ok(userRepository.save(currentUser));
+            Favourite favourite = new Favourite();
+            favourite.setDate(new Date());
+            favourite.setUser(currentUser);
+            favourite.setMovie(movie);
+            try{
+                log.info(movie.getTitle() + " added to user: " + currentUser.getRealname());
+                return favouriteRepository.save(favourite);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
         }
         else{
             return null;
         }
     }
-    */
 }
