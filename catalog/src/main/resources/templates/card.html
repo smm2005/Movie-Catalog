@@ -13,6 +13,11 @@
                 <h4 th:text="${movie.getReleaseDate()}"></h4>
                 <br>
                 <p th:text="${movie.getDescription()}"></p>
+                <form method="POST" th:action="@{'/card?movie=' + ${movie.getId()}}">
+                    <input type="submit" value="Add to favourites">
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+                </form>
+                <a th:href="@{'/movies?page='+${movie.getId() / 31}}"><h3>Back to Page</h3></a>
             </div>
         </div>
     </body>
