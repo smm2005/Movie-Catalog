@@ -16,7 +16,7 @@ import com.moviecatalog.catalog.data.UserRepository;
 @Slf4j
 @RestController
 @RequestMapping(path="/api/user", produces="application/json")
-@CrossOrigin(origins="http://localhost:8080")
+@CrossOrigin
 public class UserController {
 
     private UserRepository userRepository;

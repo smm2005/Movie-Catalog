@@ -27,4 +27,11 @@ create table if not exists FAVOURITES(
     constraint fk_user_id foreign key (user_id) references USERS(id),
     constraint fk_movie_id foreign key (movie_id) references MOVIES(movies_id)
 );
+
+create table if not exists TOKENS(
+    token_id bigint not null,
+    token varchar(1000) not null,
+    expiry timestamp not null,
+    userId bigint not null
+)
     

@@ -11,13 +11,10 @@ public class WebConfig implements WebMvcConfigurer{
     @Override
     public void addViewControllers(ViewControllerRegistry registry){
         registry.addViewController("/").setViewName("home");
-        registry.addViewController("/login");
-        registry.addViewController("/logout");
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry){
-        registry.addMapping("/card**").allowedOrigins("http://localhost:8080").allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS").allowedHeaders("*").allowCredentials(true).maxAge(3600);
-        registry.addMapping("/api**").allowedOriginPatterns("http://localhost:8080").allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS").allowedHeaders("*").allowCredentials(true).maxAge(3600);
+        registry.addMapping("/api/**").allowedOriginPatterns("*").allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH").allowedHeaders("*").allowCredentials(true).maxAge(3600);
     }
 }

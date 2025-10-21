@@ -22,7 +22,7 @@ import com.moviecatalog.catalog.data.UserRepository;
 
 @RestController
 @RequestMapping(path="/api/movies", produces="application/json")
-@CrossOrigin(origins="http://localhost:8080")
+@CrossOrigin
 public class MovieRESTController {
 
     private MovieRepository movieRepository;
