@@ -24,6 +24,8 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -63,6 +65,16 @@ public class SecurityConfig {
     }
 
     @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter(){
+        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        grantedAuthoritiesConverter.setAuthorityPrefix("ROLE");
+
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwt -> grantedAuthoritiesConverter.convert(jwt));
+        return jwtAuthenticationConverter;
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
         .cors(Customizer.withDefaults())
@@ -77,7 +89,7 @@ public class SecurityConfig {
         .anyRequest()
         .authenticated())
         .userDetailsService(userConfig.userDetailsService())
-        .oauth2ResourceServer((oauth2) -> oauth2.jwt(jwt -> jwt.decoder(tokenService.jwtDecoder())))
+        .oauth2ResourceServer((oauth2) -> oauth2.jwt(jwt -> jwt.decoder(tokenService.jwtDecoder()).jwtAuthenticationConverter(jwtAuthenticationConverter())))
         .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
         .formLogin((login) -> login.disable())

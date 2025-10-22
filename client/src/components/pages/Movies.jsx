@@ -53,10 +53,15 @@ function Movies(){
             response.json()
         )
         .then(json => {
-            console.log(json)
+            if (json.token == "Error"){
+                setVerify(false)
+            }
+            else{
+                setVerify(true)
+            }
         })
         .catch(error => console.error(error))
-        .finally(() => setVerify(true))
+        .finally(verifyBoolean)
     }
 
     const load = (p) => {
@@ -73,7 +78,7 @@ function Movies(){
             console.log(json)
             setData(json)
         })
-        .catch(error => console.error(error))
+        .catch(verify())
         .finally(() => setLoading(false))
     }
 
@@ -89,6 +94,7 @@ function Movies(){
             load(page)
         }
     }, [page]);
+    
     const movieCatalog = data.map(movie => {
         return (
         <div className="movie" style={styles.movie}>
@@ -103,6 +109,7 @@ function Movies(){
     console.log(verifyBoolean)
     
     return (
+        !verifyBoolean ? <Navigate to="/login" /> :
         isLoading ? <p>Loading...</p> :
         <>
             <button onClick={() => setPage(page-1)}>&lt;</button>

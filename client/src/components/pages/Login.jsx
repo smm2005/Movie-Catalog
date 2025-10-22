@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 function Login(){
     
@@ -36,6 +37,7 @@ function Login(){
         .catch(err => {
             console.log(err)
         })
+        return <Navigate to="/movies?page=0" />
     }
 
     return (
