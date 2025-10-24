@@ -39,6 +39,7 @@ public class LoginController {
 
     @PostMapping
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest loginRequest, @RequestHeader(HttpHeaders.AUTHORIZATION) String bearerToken){
+        String accessToken = bearerToken.split(" ")[1];
         this.authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 loginRequest.getUsername(),
@@ -46,7 +47,7 @@ public class LoginController {
         ));
         User user = this.userRepository.findByUsername(loginRequest.getUsername()).get();
         log.info("User " + user.getUsername() + " logged in");
-        return ResponseEntity.ok(AuthenticationResponse.builder().token(bearerToken).build());
+        return ResponseEntity.ok(AuthenticationResponse.builder().token(accessToken).build());
     }
 
 }

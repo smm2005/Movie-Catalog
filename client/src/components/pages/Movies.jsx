@@ -3,11 +3,8 @@ import { Navigate } from 'react-router-dom';
 
 function Movies(){
     const [isLoading, setLoading] = useState(true)
-    const [verifyBoolean, setVerify] = useState(false)
     const [data, setData] = useState([])
     const [page, setPage] = useState(0)
-
-    var verifyBool = true
 
     const jwtToken = localStorage.getItem("jwtToken")
 
@@ -35,35 +32,7 @@ function Movies(){
             width: "250px",
         }
     }
-
-    const verify = () => {
-        fetch(`http://localhost:8080/api/auth/verify`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`,
-                'Access-Control-Allow-Headers': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH'
-            },
-            body: JSON.stringify(
-                {}
-            )
-        })
-        .then(response => 
-            response.json()
-        )
-        .then(json => {
-            if (json.token == "Error"){
-                setVerify(false)
-            }
-            else{
-                setVerify(true)
-            }
-        })
-        .catch(error => console.error(error))
-        .finally(verifyBoolean)
-    }
-
+   
     const load = (p) => {
         fetch(`http://localhost:8080/api/movies?page=${p}`, {
             headers: {
@@ -78,21 +47,25 @@ function Movies(){
             console.log(json)
             setData(json)
         })
-        .catch(verify())
+        .catch(err => console.error(err))
         .finally(() => setLoading(false))
     }
 
 
     useEffect(() => {
-        if (page > 327){
-            load(327)
+        const loadCond = () => {
+            if (page > 327){
+                load(327)
+            }
+            else if (page <= 0){
+                load(0)
+            }
+            else{
+                load(page)
+            }
         }
-        else if (page <= 0){
-            load(0)
-        }
-        else{
-            load(page)
-        }
+        loadCond()
+
     }, [page]);
     
     const movieCatalog = data.map(movie => {
@@ -106,10 +79,7 @@ function Movies(){
         )
     })
 
-    console.log(verifyBoolean)
-    
     return (
-        !verifyBoolean ? <Navigate to="/login" /> :
         isLoading ? <p>Loading...</p> :
         <>
             <button onClick={() => setPage(page-1)}>&lt;</button>

@@ -39,7 +39,7 @@ public class AuthenticationController {
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping("/verify")
+    @PostMapping("/refresh")
     public ResponseEntity<AuthenticationResponse> verifyUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
         String accessToken = authorizationHeader.split(" ")[1];
         AuthenticationResponse errorResponse = AuthenticationResponse.builder().token("Error").build();

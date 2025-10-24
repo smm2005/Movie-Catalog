@@ -41,13 +41,16 @@ function Login(){
     }
 
     return (
-        <form action={handleLogin}>
-            <label>Username: </label>
-            <input type="text" value={username} onChange={handleUsernameChange} />
-            <label>Password: </label>
-            <input type="password" value={password} onChange={handlePasswordChange} />
-            <button type="submit">Submit</button>
-        </form>
+        <>
+            <form action={handleLogin}>
+                <label>Username: </label>
+                <input type="text" value={username} onChange={handleUsernameChange} />
+                <label>Password: </label>
+                <input type="password" value={password} onChange={handlePasswordChange} />
+                <button type="submit">Submit</button>
+            </form>
+            <p>New user? Sign up <Navigate to="/login">Here</Navigate></p>
+        </>
     )
 
 }
