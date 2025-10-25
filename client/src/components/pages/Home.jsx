@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 function Home () {
+
     return (
         <div className="container">
             <h1>Find YOUR taste in movies</h1>

@@ -6,8 +6,6 @@ function Login(){
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
-    const jwtToken = localStorage.getItem("jwtToken").toString();
-
     function handleUsernameChange(e){
         setUsername(e.target.value)
     }
@@ -21,7 +19,6 @@ function Login(){
             method: "POST",
             headers: {
                 'Content-type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`,
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH'
             },
@@ -33,16 +30,21 @@ function Login(){
         .then(res => res.json())
         .then(data => {
             console.log(data)
+            localStorage.setItem("token", data.token)
         })
         .catch(err => {
             console.log(err)
         })
-        return <Navigate to="/movies?page=0" />
+    }
+
+    const redirectToMovies = (event) => {
+        event.preventDefault();
+        window.location.href = "/movies";
     }
 
     return (
         <>
-            <form action={handleLogin}>
+            <form action={handleLogin} onSubmit={redirectToMovies}>
                 <label>Username: </label>
                 <input type="text" value={username} onChange={handleUsernameChange} />
                 <label>Password: </label>

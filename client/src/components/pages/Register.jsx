@@ -42,14 +42,18 @@ function Register () {
         .then(response => response.json())
         .then(json => {
             console.log(json);
-            localStorage.setItem("jwtToken", json.token);
         })
         .catch((error) => console.error(error))
-        .finally(() => <Navigate to="/login" />)
+        .finally()
+    }
+
+    const redirectToLogin = (event) => {
+        event.preventDefault();
+        window.location.href = "/login";
     }
 
     return (
-            <form action={registerUser}>
+            <form action={registerUser} onSubmit={redirectToLogin}>
                 <label>Name: </label>
                 <input type="text" 
                        value={name} 
@@ -80,7 +84,7 @@ function Register () {
                        onChange={handlePasswordChange}
                        name="confirm" />
 
-                <input type="submit" value="Register" />
+                <input type="submit" value="Register"/>
             </form>
     )
 }

@@ -47,7 +47,7 @@ function Movies(){
             console.log(json)
             setData(json)
         })
-        .catch(err => console.error(err))
+        .catch(err => <Navigate to="/login" />)
         .finally(() => setLoading(false))
     }
 

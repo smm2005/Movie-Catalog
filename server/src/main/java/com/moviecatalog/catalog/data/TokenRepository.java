@@ -11,6 +11,6 @@ public interface TokenRepository extends JpaRepository<Token, Long>{
     Token findByUserId(Long userId);
     
     @Modifying
-    @Query("UPDATE tokens t SET t.token = ?1 WHERE t.userId = ?2")
-    int updateRefreshToken(String newToken, Long userId);
+    @Query("UPDATE tokens SET token = ?1 WHERE userId = ?2")
+    void updateRefreshToken(String newToken, Long userId);
 }

@@ -43,16 +43,9 @@ public class RegistrationController {
     private TokenRepository tokenRepository;
 
     @PostMapping
-    public ResponseEntity<AuthenticationResponse> registerUser(@RequestBody RegistrationForm form) {
+    public ResponseEntity<Void> registerUser(@RequestBody RegistrationForm form) {
         @Valid User newUser = form.toUser(passwordEncoder);
         userRepository.save(newUser);
-        Map<String,String> tokenPair = tokenService.generateTokenPair(newUser);
-        String refreshToken = tokenPair.get("refresh_token");
-        tokenRepository.save(Token.builder()
-            .token(refreshToken)
-            .expiry(tokenService.extractExpiration(refreshToken))
-            .userId(newUser.getId()).build());
-        AuthenticationResponse response = new AuthenticationResponse(tokenPair.get("access_token"));
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok().build();
     }
 }

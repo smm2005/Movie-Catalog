@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 
 function Auth(){
-    const [token, setToken] = useState("Error")
+    const [valid, setValid] = useState(true);
     const jwtToken = localStorage.getItem('jwtToken')
 
     useEffect(() => {
@@ -22,19 +22,16 @@ function Auth(){
             response.json()
         )
         .then(json => {
-            console.log(json)
-            setToken(json.token)
+            setValid(true)
+            localStorage.setItem('jwtToken', token)
         })
-        .catch(error => console.error(error))
-        .finally(() => console.log(token))
+        .catch(error => {
+            console.log(error)
+        })
     }, [])
 
-    if (token !== "Error"){
-        localStorage.setItem('jwtToken', token)
-    }
-
     return (
-        (token === "Error") ? <Navigate to="/login" /> : <Navigate to="/movies" /> 
+        (!valid) ? <Navigate to="/login" /> : <Navigate to="/movies" /> 
     )
 }
 

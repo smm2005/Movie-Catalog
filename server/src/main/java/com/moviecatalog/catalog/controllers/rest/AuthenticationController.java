@@ -1,6 +1,7 @@
 package com.moviecatalog.catalog.controllers.rest;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -42,11 +43,10 @@ public class AuthenticationController {
     @PostMapping("/refresh")
     public ResponseEntity<AuthenticationResponse> verifyUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
         String accessToken = authorizationHeader.split(" ")[1];
-        AuthenticationResponse errorResponse = AuthenticationResponse.builder().token("Error").build();
         try{
             Optional<User> currentUser = userRepository.findByUsername(tokenService.extractUsername(accessToken));
             if (currentUser.isEmpty()){
-                return ResponseEntity.ok(errorResponse);
+                return null;
             }
             else{
                 AuthenticationResponse tokenResponse = AuthenticationResponse.builder().token(accessToken).build();
@@ -56,7 +56,7 @@ public class AuthenticationController {
         catch (ExpiredJwtException e){
             Optional<User> currentUser = userRepository.findByUsername(e.getClaims().getSubject());
             if (currentUser.isEmpty()){
-                return ResponseEntity.ok(errorResponse);
+                return null;
             }
             User user = currentUser.get();
             String refreshToken = tokenRepository.findByUserId(user.getId()).getToken();
@@ -69,7 +69,7 @@ public class AuthenticationController {
                 return ResponseEntity.ok(newTokenResponse);
             }
             else {
-                return ResponseEntity.ok(errorResponse);
+                return null;
             }
         }
     }

@@ -82,7 +82,7 @@ public class TokenService {
                 .issuer("self")
                 .subject(user.getUsername())
                 .issuedAt(currentTime)
-                .expiresAt(currentTime.plus(10, ChronoUnit.SECONDS))
+                .expiresAt(currentTime.plus(30, ChronoUnit.SECONDS))
                 .claim("scope", scope)
                 .build();
         return jwtEncoder().encode(JwtEncoderParameters.from(claims)).getTokenValue();
