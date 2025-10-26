@@ -41,12 +41,12 @@ public class AuthenticationController {
     UserRepository userRepository;
 
     @PostMapping("/refresh")
-    public ResponseEntity<AuthenticationResponse> verifyUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
-        String accessToken = authorizationHeader.split(" ")[1];
+    public ResponseEntity<AuthenticationResponse> refreshUser(@RequestBody AccessTokenRecord tokenRequest) {
+        String accessToken = tokenRequest.accessToken();
         try{
-            Optional<User> currentUser = userRepository.findByUsername(tokenService.extractUsername(accessToken));
+            Optional<User> currentUser = this.userRepository.findByUsername(this.tokenService.extractUsername(accessToken));
             if (currentUser.isEmpty()){
-                return null;
+                return ResponseEntity.ok(null);
             }
             else{
                 AuthenticationResponse tokenResponse = AuthenticationResponse.builder().token(accessToken).build();
@@ -56,7 +56,7 @@ public class AuthenticationController {
         catch (ExpiredJwtException e){
             Optional<User> currentUser = userRepository.findByUsername(e.getClaims().getSubject());
             if (currentUser.isEmpty()){
-                return null;
+                return ResponseEntity.ok(null);
             }
             User user = currentUser.get();
             String refreshToken = tokenRepository.findByUserId(user.getId()).getToken();
@@ -69,7 +69,7 @@ public class AuthenticationController {
                 return ResponseEntity.ok(newTokenResponse);
             }
             else {
-                return null;
+                return ResponseEntity.ok(null);
             }
         }
     }

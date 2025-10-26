@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 function Movies(){
     const [isLoading, setLoading] = useState(true)
@@ -47,7 +47,7 @@ function Movies(){
             console.log(json)
             setData(json)
         })
-        .catch(err => <Navigate to="/login" />)
+        .catch(err => console.error(err))
         .finally(() => setLoading(false))
     }
 
@@ -85,6 +85,9 @@ function Movies(){
             <button onClick={() => setPage(page-1)}>&lt;</button>
             <p style={styles.paragraph}>Page: {page} of 327</p>
             <button onClick={() => setPage(page+1)}>&gt;</button>
+
+            <Link to="/profile">{localStorage.getItem("username")}</Link>
+            
             <div className="catalog" style={styles.catalog}>
                 {movieCatalog}
             </div>

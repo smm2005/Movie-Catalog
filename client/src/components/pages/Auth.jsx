@@ -1,37 +1,37 @@
 import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 
-function Auth(){
-    const [valid, setValid] = useState(true);
-    const jwtToken = localStorage.getItem('jwtToken')
+function Auth(props){
+    const [valid, setValid] = useState(null);
+    const jwtToken = localStorage.getItem("jwtToken")
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/auth/refresh`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`,
                 'Access-Control-Allow-Headers': '*',
                 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH'
             },
-            body: JSON.stringify(
-                {}
-            )
+            body: JSON.stringify({
+                token: jwtToken
+            })
         })
         .then(response => 
             response.json()
         )
         .then(json => {
+            localStorage.setItem("jwtToken", json.token)
             setValid(true)
-            localStorage.setItem('jwtToken', token)
         })
         .catch(error => {
             console.log(error)
+            setValid(false)
         })
     }, [])
 
     return (
-        (!valid) ? <Navigate to="/login" /> : <Navigate to="/movies" /> 
+        (!valid) ? <Navigate to="/login" /> : <Navigate to={props.to} />
     )
 }
 

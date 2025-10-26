@@ -30,28 +30,26 @@ function Login(){
         .then(res => res.json())
         .then(data => {
             console.log(data)
-            localStorage.setItem("token", data.token)
+            localStorage.setItem("jwtToken", data.token)
         })
         .catch(err => {
             console.log(err)
         })
-    }
-
-    const redirectToMovies = (event) => {
-        event.preventDefault();
-        window.location.href = "/movies";
+        .finally(() => {
+            window.location.href = "/movies";
+        })
     }
 
     return (
         <>
-            <form action={handleLogin} onSubmit={redirectToMovies}>
+            <form action={handleLogin}>
                 <label>Username: </label>
                 <input type="text" value={username} onChange={handleUsernameChange} />
                 <label>Password: </label>
                 <input type="password" value={password} onChange={handlePasswordChange} />
                 <button type="submit">Submit</button>
             </form>
-            <p>New user? Sign up <Navigate to="/login">Here</Navigate></p>
+            <p>New user? Sign up <button onClick={() => window.location.href="/register"}>here</button></p>
         </>
     )
 

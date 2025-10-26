@@ -8,6 +8,7 @@ import Auth from './components/pages/Auth'
 import Register from './components/pages/Register'
 import Login from './components/pages/Login'
 import Movies from './components/pages/Movies'
+import Profile from './components/pages/Profile'
 
 function App() {
 
@@ -16,10 +17,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/auth" element={<Auth />} />
+          <Route path="/movieauth" element={<Auth to="/movies" />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </div>

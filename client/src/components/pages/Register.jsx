@@ -44,16 +44,11 @@ function Register () {
             console.log(json);
         })
         .catch((error) => console.error(error))
-        .finally()
-    }
-
-    const redirectToLogin = (event) => {
-        event.preventDefault();
-        window.location.href = "/login";
+        .finally(() => window.location.href = "/login")
     }
 
     return (
-            <form action={registerUser} onSubmit={redirectToLogin}>
+            <form action={registerUser}>
                 <label>Name: </label>
                 <input type="text" 
                        value={name} 
