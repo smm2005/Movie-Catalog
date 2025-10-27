@@ -40,7 +40,6 @@ public class UserController {
         String username = tokenService.extractUsername(realAccessToken);
         String realname = userRepository.findByUsername(username).get().getRealname();
         return ResponseEntity.ok(new NamesRecord(realname, username));
-        
     }
 
     @GetMapping("/all")

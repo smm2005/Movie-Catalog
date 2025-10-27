@@ -51,6 +51,22 @@ function Movies(){
         .finally(() => setLoading(false))
     }
 
+    const setFavourite = (id) => {
+        fetch(`http://localhost:8080/api/favourites?id=${id}`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`,
+                'Access-Control-Allow-Headers': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH'
+            }
+        })
+        .then(res => res.json())
+        .then(json => {
+            console.log(json)
+        })
+        .catch(err => console.error(err))
+    }
 
     useEffect(() => {
         const loadCond = () => {
@@ -75,6 +91,7 @@ function Movies(){
             <p>{movie.title}</p>
             <p>{movie.releaseDate}</p>
             <p>{movie.rating}</p>
+            <button onClick={() => setFavourite(movie.id)}>Add to favourites</button>
         </div>
         )
     })

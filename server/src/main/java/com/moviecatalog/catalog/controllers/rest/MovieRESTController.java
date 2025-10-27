@@ -49,8 +49,9 @@ public class MovieRESTController {
     }
 
     @GetMapping(params={"id"})
-    public Movie getMovieById(@RequestParam int ident){
-        return movieRepository.findById(Integer.toUnsignedLong(ident)).get();
+    public ResponseEntity<Movie> getMovieById(@RequestParam("id") int id){
+        Movie movie = movieRepository.findById(Integer.toUnsignedLong(id)).get();
+        return ResponseEntity.ok(movie);
     }
 
     /*
