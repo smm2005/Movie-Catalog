@@ -4,7 +4,12 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.moviecatalog.catalog.movie.Movie;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.moviecatalog.catalog.movie.Favourite;
 
 import jakarta.persistence.*;
@@ -22,6 +27,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @Data
 @NoArgsConstructor(access=AccessLevel.PRIVATE, force=true)
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails, Persistable<Long>{
     
     private static final long serialVersionUID = 1L;
@@ -29,6 +35,7 @@ public class User implements UserDetails, Persistable<Long>{
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="user_id", nullable=false, updatable=false)
+    @JsonProperty("user_id")
     private Long id;
 
     @NotNull
@@ -49,11 +56,12 @@ public class User implements UserDetails, Persistable<Long>{
     @Column(name="password")
     private final String password;
 
-    @OneToMany(targetEntity = Favourite.class, mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
     @JsonManagedReference
     private Set<Favourite> favourites = new HashSet<Favourite>();
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities(){
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
     }

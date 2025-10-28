@@ -3,15 +3,20 @@ package com.moviecatalog.catalog.movie;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import net.coobird.thumbnailator.Thumbnails;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.moviecatalog.catalog.user.User;
 
 /*
@@ -36,10 +41,14 @@ import jakarta.persistence.Table;
 
 @Entity(name="movies")
 @Table(name="movies")
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(
+    generator=ObjectIdGenerators.UUIDGenerator.class
+)
 public class Movie implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -77,7 +86,6 @@ public class Movie implements Serializable {
     private String poster_url;
 
     @OneToOne(targetEntity=Favourite.class, mappedBy="movie")
-    @JsonIgnore
     private Favourite favourite;
 
     public String toString(){

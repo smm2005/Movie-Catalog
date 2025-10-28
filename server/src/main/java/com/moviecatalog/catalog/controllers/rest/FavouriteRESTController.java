@@ -96,9 +96,10 @@ public class FavouriteRESTController {
         Movie movie = rest.exchange("http://localhost:8080/api/movies?id={id}", HttpMethod.GET, movieEntity, Movie.class, movieId).getBody();
 
         favourite.setDate(new Date());
-        favourite.setMovie(movie);
         favourite.setUser(currentUser);
-        return ResponseEntity.ok(favourite);
+        favourite.setMovie(movie);
+
+        return ResponseEntity.ok(favouriteRepository.save(favourite));
     }
 
 }

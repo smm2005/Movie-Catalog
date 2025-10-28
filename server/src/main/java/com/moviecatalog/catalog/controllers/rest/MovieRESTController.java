@@ -49,23 +49,8 @@ public class MovieRESTController {
     }
 
     @GetMapping(params={"id"})
-    public ResponseEntity<Movie> getMovieById(@RequestParam("id") int id){
+    public ResponseEntity<Movie> getMovieById(@RequestParam int id){
         Movie movie = movieRepository.findById(Integer.toUnsignedLong(id)).get();
         return ResponseEntity.ok(movie);
     }
-
-    /*
-    @PatchMapping(path="/{id}", consumes="application/json")
-    public ResponseEntity<User> addMovieToLoggedUser(@PathVariable("id") int ident, @RequestBody Movie movie){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()){
-            User currentUser = (User) authentication.getPrincipal();
-            currentUser.addMovie(movie);
-            return ResponseEntity.ok(userRepository.save(currentUser));
-        }
-        else{
-            return null;
-        }
-    }
-    */
 }

@@ -35,11 +35,10 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<NamesRecord> getCurrentUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String accessToken){
+    public ResponseEntity<User> getCurrentUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String accessToken){
         String realAccessToken = accessToken.split(" ")[1];
         String username = tokenService.extractUsername(realAccessToken);
-        String realname = userRepository.findByUsername(username).get().getRealname();
-        return ResponseEntity.ok(new NamesRecord(realname, username));
+        return ResponseEntity.ok(userRepository.findByUsername(username).get());
     }
 
     @GetMapping("/all")
