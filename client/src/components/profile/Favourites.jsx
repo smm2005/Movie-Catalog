@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Movie from '../Movie'
 
 function Favourites(){
     const [loading, setLoading] = useState(true)
@@ -33,8 +34,8 @@ function Favourites(){
         })
         .then(res => res.json())
         .then(json => {
+            setFavourites(json)
             console.log(json)
-            setFavourites(json.favourites)
         })
         .catch(error => {
             console.log(error)
@@ -44,21 +45,16 @@ function Favourites(){
 
     useEffect(() => {
         getFavourites(0)
-    }, [])
+    })
 
-    const movieFavourites = favourites.length == 0 ? () => {return (<p>No favourites yet!</p>)} : favourites.map(movie => {
+    const movieFavourites = favourites?.map(favourite => {
         return (
-        <div className="movie" style={styles.movie}>
-            <img src={movie.poster_url} alt={movie.title} height="200px" width="150px"></img>
-            <p>{movie.title}</p>
-            <p>{movie.releaseDate}</p>
-            <p>{movie.rating}</p>
-        </div>
+            <Movie style={styles.movie} movie={favourite.movie}/>
         )
     })
 
     return (
-        loading ? <p> Loading </p> :
+        loading ? <p> Loading... </p> :
         <>
             <div className="favourites" style={styles.favourites}>
                 {movieFavourites}

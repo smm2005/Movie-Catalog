@@ -41,6 +41,7 @@ function Profile(){
         isLoading ? <p> Loading... </p> :
         <div>
             <User name={name} username={username} pfp={pfp} />
+            <Favourites />
         </div>
     )
 }

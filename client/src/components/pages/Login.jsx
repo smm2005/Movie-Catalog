@@ -29,8 +29,8 @@ function Login(){
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             localStorage.setItem("jwtToken", data.token)
+            console.log(data)
         })
         .catch(err => {
             console.log(err)
