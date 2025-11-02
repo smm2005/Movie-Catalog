@@ -45,12 +45,12 @@ public class AuthenticationController {
         String accessToken = tokenRequest.accessToken();
         try{
             Optional<User> currentUser = this.userRepository.findByUsername(this.tokenService.extractUsername(accessToken));
-            if (currentUser.isEmpty()){
-                return ResponseEntity.ok(null);
-            }
-            else{
+            if (currentUser.isPresent()){
                 AuthenticationResponse tokenResponse = AuthenticationResponse.builder().token(accessToken).build();
                 return ResponseEntity.ok(tokenResponse);
+            }
+            else{
+                return ResponseEntity.ok(null);
             }
         }
         catch (ExpiredJwtException e){

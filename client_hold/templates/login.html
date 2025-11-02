@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Movie Recommender</title>    
+    </head>
+    <body>
+        <h1>Login</h1>
+
+        <!--
+        <div th:if="${error}" th:text="Can not login. Please check your username/password.">
+        </div>
+        -->
+
+        <p>New? Click on <a href="registration.html">the register link</a></p>
+
+        <form method="POST" action="../scripts/login.js" id="loginForm">
+            <label for="username">Username: </label>
+            <input type="text" name="username" id="username"><br>
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="password" autocomplete="on"><br>
+            <input type="submit" value="Login">
+        </form>
+    </body>
+</html>
