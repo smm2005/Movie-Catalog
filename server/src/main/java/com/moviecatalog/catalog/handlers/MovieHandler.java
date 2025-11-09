@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 import com.moviecatalog.catalog.movie.*;
@@ -18,7 +19,7 @@ public class MovieHandler {
 
     public int getGenreScore(String genre){
         int score = 0;
-        TreeMap<String, Integer> map = genreHandler.getGenreAndCount();
+        HashMap<String, Integer> map = genreHandler.getGenreAndCount();
         String[] genreList = genre.strip().replaceAll("\"", "").split(", ");
         for (String gen : genreList){
             score = map.get(gen);

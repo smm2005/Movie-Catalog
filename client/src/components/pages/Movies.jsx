@@ -103,7 +103,7 @@ function Movies(){
             <p style={styles.paragraph}>Page: {page} of 327</p>
             <button onClick={() => setPage(page+1)}>&gt;</button>
 
-            <Link to="/profileauth">{localStorage.getItem("username")}</Link>
+            <Link to="/profile">{localStorage.getItem("username")}</Link>
             
             <div className="catalog" style={styles.catalog}>
                 {movieCatalog}

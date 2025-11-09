@@ -34,9 +34,6 @@ public class FavouritesController {
     @Autowired
     public UserRepository userRepository;
 
-    @Autowired
-    public Recommender recommender;
-
     @ModelAttribute(name="favourites")
     public void addUserFavouritesToModel(Model model){
         model.addAttribute("favourites", favouriteRepository.findAll());

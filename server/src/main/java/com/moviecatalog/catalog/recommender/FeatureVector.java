@@ -27,7 +27,7 @@ public class FeatureVector {
 
     public double angleBetween(Object other){
         return Math.acos(
-            dotProduct(other) / Math.pow(magnitude(), 2)
+            dotProduct(other) / (magnitude() * ((FeatureVector) other).magnitude())
         );
     }
 

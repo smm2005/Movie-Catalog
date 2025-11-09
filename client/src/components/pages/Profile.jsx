@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import User from '../profile/User'
 import Favourites from '../profile/Favourites'
+import Recommendations from '../profile/Recommendations'
 
 function Profile(){
 
@@ -35,13 +36,14 @@ function Profile(){
 
     useEffect(() => {
         getUser()
-    })
+    }, [])
 
     return(
         isLoading ? <p> Loading... </p> :
         <div>
             <User name={name} username={username} pfp={pfp} />
             <Favourites />
+            <Recommendations />
         </div>
     )
 }

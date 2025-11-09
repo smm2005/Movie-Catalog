@@ -35,9 +35,6 @@ public class ProfileController {
     @Autowired
     public UserRepository userRepository;
 
-    @Autowired
-    public TitleRecommender recommender;
-
     @ModelAttribute(name="user")
     public void addUserToModel(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -50,10 +47,12 @@ public class ProfileController {
         }
     }
 
+    /*
     @ModelAttribute(name="recommendations")
     public void addRecommendationsToModel(Model model){
         model.addAttribute("recommendations", recommender.getRecommendations());
     }
+    */
 
     @ModelAttribute(name="favourites")
     public void addUserFavouritesToModel(Model model){

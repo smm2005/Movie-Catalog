@@ -14,9 +14,9 @@ import com.moviecatalog.catalog.user.User;
 public interface FavouriteRepository extends JpaRepository<Favourite, Long>{
     Page<Favourite> findAll(Pageable pageable);
 
-    // List<Favourite> findFirst5ByOrderByCreatedDesc();
-
     List<Favourite> findAllByUser(User referenceById);
+
+    List<Favourite> findFirst5ByOrderByIdDesc();
 
     Favourite findByMovie(Movie currentMovie);
 }

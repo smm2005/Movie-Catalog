@@ -10,9 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.moviecatalog.catalog.data.FavouriteRepository;
+import com.moviecatalog.catalog.handlers.MovieHandler;
+import com.moviecatalog.catalog.movie.Favourite;
 import com.moviecatalog.catalog.movie.Movie;
 import com.moviecatalog.catalog.recommender.MovieRecommender;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping(path="/api/recs", produces="application/json")
 @CrossOrigin
@@ -21,11 +26,16 @@ public class RecommendationController {
     @Autowired
     private FavouriteRepository favouriteRepository;
 
-    private MovieRecommender movieRecommender = new MovieRecommender(favouriteRepository.findAll().getLast()); 
+    @Autowired
+    private MovieRecommender movieRecommender;
 
     @GetMapping
     public ResponseEntity<List<Movie>> getTopFiveRecommendations(){
-        return ResponseEntity.ok(movieRecommender.getTopFiveRecs());
+        List<Movie> recommendations = movieRecommender.getTopFiveRecs();
+        for (Movie recommendation : recommendations){
+            log.info(recommendation.toString());
+        }
+        return ResponseEntity.ok(recommendations);
     }
 
 }

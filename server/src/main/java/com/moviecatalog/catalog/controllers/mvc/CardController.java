@@ -46,9 +46,6 @@ public class CardController {
     @Autowired
     public RestTemplateClass restTemplate;
 
-    @Autowired
-    public Recommender recommender;
-
     @GetMapping(params="movie")
     public String viewMovie(@RequestParam int movie, Model model){
         Movie currentMovie = movieRepository.findById(Integer.toUnsignedLong(movie)).get();

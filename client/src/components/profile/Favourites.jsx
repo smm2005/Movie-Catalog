@@ -45,7 +45,7 @@ function Favourites(){
 
     useEffect(() => {
         getFavourites(0)
-    })
+    }, [])
 
     const movieFavourites = favourites?.map(favourite => {
         return (
