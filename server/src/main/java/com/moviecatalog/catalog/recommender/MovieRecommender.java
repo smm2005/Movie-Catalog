@@ -52,7 +52,7 @@ public class MovieRecommender {
         List<Movie> movies = movieRepository
                .findAll()
                .stream()
-               .filter((movie) -> getAngleBetween(movie) > 0)
+               .filter((movie) -> (favouriteRepository.findByMovie(movie) == null))
                .sorted((mov1, mov2) -> Double.compare(getAngleBetween(mov1), getAngleBetween(mov2)))
                .collect(Collectors.toList())
                .subList(0, 5);
