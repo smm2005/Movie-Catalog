@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import Search from '../catalog/Search';
 
 function Movies(){
     const [isLoading, setLoading] = useState(true)
@@ -35,8 +34,8 @@ function Movies(){
         }
     }
    
-    const load = (p) => {
-        fetch(`http://localhost:8080/api/movies?page=${p}`, {
+    const load = (p, text) => {
+        fetch(`http://localhost:8080/api/movies?page=${p}&search=${text}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${jwtToken}`,
@@ -77,18 +76,18 @@ function Movies(){
     useEffect(() => {
         const loadCond = () => {
             if (page > 327){
-                load(327)
+                load(327, terms)
             }
             else if (page <= 0){
-                load(0)
+                load(0, terms)
             }
             else{
-                load(page)
+                load(page, terms)
             }
         }
         loadCond()
 
-    }, [page]);
+    }, [page, terms]);
     
     const movieCatalog = data.map(movie => {
         return (
@@ -111,8 +110,6 @@ function Movies(){
 
             <Link to="/profile">{localStorage.getItem("username")}</Link>
             <textarea value={terms} onChange={setKeywords}></textarea>
-
-            <Search text={terms} />
 
             <div className="catalog" style={styles.catalog}>
                 {movieCatalog}
