@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import Search from '../catalog/Search';
 
 function Movies(){
     const [isLoading, setLoading] = useState(true)
     const [data, setData] = useState([])
     const [page, setPage] = useState(0)
+    const [terms, setTerms] = useState("")
 
     const jwtToken = localStorage.getItem("jwtToken")
 
@@ -68,6 +70,10 @@ function Movies(){
         .catch(err => console.error(err))
     }
 
+    const setKeywords = (event) => {
+        setTerms(event.target.value);
+    }
+
     useEffect(() => {
         const loadCond = () => {
             if (page > 327){
@@ -104,7 +110,10 @@ function Movies(){
             <button onClick={() => setPage(page+1)}>&gt;</button>
 
             <Link to="/profile">{localStorage.getItem("username")}</Link>
-            
+            <textarea value={terms} onChange={setKeywords}></textarea>
+
+            <Search text={terms} />
+
             <div className="catalog" style={styles.catalog}>
                 {movieCatalog}
             </div>

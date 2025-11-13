@@ -42,9 +42,9 @@ public class AuthenticationController {
 
     @PostMapping("/refresh")
     public ResponseEntity<AuthenticationResponse> refreshUser(@RequestBody AccessTokenRecord tokenRequest) {
-        String accessToken = tokenRequest.accessToken();
+        String accessToken = tokenRequest.token();
         try{
-            Optional<User> currentUser = this.userRepository.findByUsername(this.tokenService.extractUsername(accessToken));
+            Optional<User> currentUser = userRepository.findByUsername(tokenService.extractUsername(accessToken));
             if (currentUser.isPresent()){
                 AuthenticationResponse tokenResponse = AuthenticationResponse.builder().token(accessToken).build();
                 return ResponseEntity.ok(tokenResponse);
@@ -74,6 +74,6 @@ public class AuthenticationController {
         }
     }
 
-    public record AccessTokenRecord(String accessToken){};
+    public record AccessTokenRecord(String token){};
 
 }

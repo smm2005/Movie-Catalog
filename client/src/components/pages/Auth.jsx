@@ -5,7 +5,7 @@ function Auth(props){
     const [valid, setValid] = useState(null);
     const jwtToken = localStorage.getItem("jwtToken")
 
-    useEffect(() => {
+    const refreshToken = () => {
         fetch(`http://localhost:8080/api/auth/refresh`, {
             method: "POST",
             headers: {
@@ -28,6 +28,10 @@ function Auth(props){
             console.log(error)
             setValid(false)
         })
+    }
+
+    useEffect(() => {
+        refreshToken()
     }, [])
 
     return (
