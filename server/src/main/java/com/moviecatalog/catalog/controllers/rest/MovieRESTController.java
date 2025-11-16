@@ -37,6 +37,12 @@ public class MovieRESTController {
     public Iterable<Movie> getAllMovies() {
         return movieRepository.findAll();
     }
+
+    @GetMapping(path="count", params={"search"})
+    public int getMovieCount(@RequestParam String search) {
+        return movieRepository.findByTitleContainingIgnoreCase(search, null).getContent().size();
+    }
+    
     
     @GetMapping(params="page")
     public Iterable<Movie> getMoviesGivenPageNumber(@RequestParam int page){

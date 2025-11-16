@@ -6,6 +6,7 @@ function Movies(){
     const [data, setData] = useState([])
     const [page, setPage] = useState(0)
     const [terms, setTerms] = useState("")
+    const [totalPages, setTotalPages] = useState(327);
 
     const jwtToken = localStorage.getItem("jwtToken")
 
@@ -52,6 +53,22 @@ function Movies(){
         .finally(() => setLoading(false))
     }
 
+    const getPageCount = (text) => {
+        fetch(`http://localhost:8080/api/movies/count?search=${text}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`,
+                'Access-Control-Allow-Headers': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE'
+            }
+        })
+        .then(response => response.json())
+        .then(json => {
+            setTotalPages(Math.ceil(json / 30))
+        })
+        .catch(err => console.error(err))
+    }
+
     const setFavourite = (id) => {
         fetch(`http://localhost:8080/api/favourites?id=${id}`, {
             method: "POST",
@@ -74,9 +91,11 @@ function Movies(){
     }
 
     useEffect(() => {
+        getPageCount(terms)
         const loadCond = () => {
-            if (page > 327){
-                load(327, terms)
+            if (page > totalPages){
+                load(totalPages, terms)
+                
             }
             else if (page <= 0){
                 load(0, terms)
@@ -86,8 +105,7 @@ function Movies(){
             }
         }
         loadCond()
-
-    }, [page, terms]);
+    }, [page, terms, totalPages]);
     
     const movieCatalog = data.map(movie => {
         return (
@@ -105,7 +123,7 @@ function Movies(){
         isLoading ? <p>Loading...</p> :
         <>
             <button onClick={() => setPage(page-1)}>&lt;</button>
-            <p style={styles.paragraph}>Page: {page} of 327</p>
+            <p style={styles.paragraph}>Page: {page} of {totalPages}</p>
             <button onClick={() => setPage(page+1)}>&gt;</button>
 
             <Link to="/profile">{localStorage.getItem("username")}</Link>

@@ -41,7 +41,7 @@ public class AuthenticationController {
     UserRepository userRepository;
 
     @PostMapping("/refresh")
-    public ResponseEntity<AuthenticationResponse> refreshUser(@RequestBody AccessTokenRecord tokenRequest) {
+    public ResponseEntity<?> refreshUser(@RequestBody AccessTokenRecord tokenRequest) {
         String accessToken = tokenRequest.token();
         try{
             Optional<User> currentUser = userRepository.findByUsername(tokenService.extractUsername(accessToken));
@@ -50,13 +50,13 @@ public class AuthenticationController {
                 return ResponseEntity.ok(tokenResponse);
             }
             else{
-                return ResponseEntity.ok(null);
+                return ResponseEntity.badRequest().body("User has not been registered");
             }
         }
         catch (ExpiredJwtException e){
             Optional<User> currentUser = userRepository.findByUsername(e.getClaims().getSubject());
             if (currentUser.isEmpty()){
-                return ResponseEntity.ok(null);
+                return ResponseEntity.badRequest().body("User has not been registered");
             }
             User user = currentUser.get();
             String refreshToken = tokenRepository.findByUserId(user.getId()).getToken();
@@ -69,7 +69,7 @@ public class AuthenticationController {
                 return ResponseEntity.ok(newTokenResponse);
             }
             else {
-                return ResponseEntity.ok(null);
+                return ResponseEntity.badRequest().body("Refresh token is not valid.");
             }
         }
     }
