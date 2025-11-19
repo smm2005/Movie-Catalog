@@ -126,7 +126,7 @@ function Movies(){
             <p style={styles.paragraph}>Page: {page} of {totalPages}</p>
             <button onClick={() => setPage(page+1)}>&gt;</button>
 
-            <Link to="/profile">{localStorage.getItem("username")}</Link>
+            <Link to="/profileauth">{localStorage.getItem("username")}</Link>
             <textarea value={terms} onChange={setKeywords}></textarea>
 
             <div className="catalog" style={styles.catalog}>

@@ -7,6 +7,7 @@ function Register () {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [confirm, setConfirm] = useState("");
 
     function handleNameChange(e){
         setName(e.target.value);
@@ -24,27 +25,36 @@ function Register () {
         setPassword(e.target.value);
     }
 
+    function handleConfirmChange(e){
+        setConfirm(e.target.value);
+    }
+
     const registerUser = () => {
-        fetch(`http://localhost:8080/api/register`, {
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH'
-            },
-            body: JSON.stringify({
-                realname: name,
-                email: email,
-                username: username,
-                password: password
+        if (password != confirm){
+            console.log("ERROR: Confirmation needs to be the same as password")
+        }
+        else{
+            fetch(`http://localhost:8080/api/register`, {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH'
+                },
+                body: JSON.stringify({
+                    realname: name,
+                    email: email,
+                    username: username,
+                    password: password,
+                })
             })
-        })
-        .then(response => response.json())
-        .then(json => {
-            console.log(json);
-        })
-        .catch((error) => console.error(error))
-        .finally(() => window.location.href = "/login")
+            .then(response => response.json())
+            .then(json => {
+                console.log(json);
+            })
+            .catch((error) => console.error(error))
+            .finally(() => window.location.href = "/login")
+        }
     }
 
     return (
@@ -75,9 +85,10 @@ function Register () {
 
                 <label>Confirm Password: </label>
                 <input type="password" 
-                       value={password}
-                       onChange={handlePasswordChange}
+                       value={confirm}
+                       onChange={handleConfirmChange}
                        name="confirm" />
+
 
                 <input type="submit" value="Register"/>
             </form>
