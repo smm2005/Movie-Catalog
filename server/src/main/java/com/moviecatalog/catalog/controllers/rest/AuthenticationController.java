@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties.Authentication;
 import org.springframework.http.HttpHeaders;
@@ -53,6 +54,9 @@ public class AuthenticationController {
             else{
                 return ResponseEntity.badRequest().body("User has not been registered");
             }
+        }
+        catch (MalformedJwtException e){
+            return ResponseEntity.badRequest().body("User has not been registered");
         }
         catch (ExpiredJwtException e){
             Optional<User> currentUser = userRepository.findByUsername(e.getClaims().getSubject());
