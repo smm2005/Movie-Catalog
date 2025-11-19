@@ -23,6 +23,7 @@ import com.moviecatalog.catalog.service.TokenService;
 import com.moviecatalog.catalog.user.User;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
