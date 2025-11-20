@@ -57,7 +57,8 @@ public class LoginController {
         this.tokenRepository.save(Token.builder()
             .token(refreshToken)
             .expiry(tokenService.extractExpiration(refreshToken))
-            .userId(user.getId()).build());
+            .userId(user.getId())
+            .revoked(false).build());
         return ResponseEntity.ok(AuthenticationResponse.builder().token(accessToken).build());
     }
 

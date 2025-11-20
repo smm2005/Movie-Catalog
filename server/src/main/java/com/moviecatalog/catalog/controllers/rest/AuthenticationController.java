@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.moviecatalog.catalog.data.TokenRepository;
 import com.moviecatalog.catalog.data.UserRepository;
+import com.moviecatalog.catalog.security.Token;
 import com.moviecatalog.catalog.security.auth.AuthenticationResponse;
 import com.moviecatalog.catalog.service.TokenService;
 import com.moviecatalog.catalog.user.User;
@@ -64,8 +65,12 @@ public class AuthenticationController {
                 return ResponseEntity.badRequest().body("User has not been registered");
             }
             User user = currentUser.get();
-            String refreshToken = tokenRepository.findByUserId(user.getId()).getToken();
-            if (tokenService.isTokenValid(refreshToken, user)){
+            Token refreshToken = tokenRepository.findByUserId(user.getId());
+            String refreshTokenString = refreshToken.getToken();
+            if (refreshToken.isRevoked()){
+                return ResponseEntity.badRequest().body("User is not logged in");
+            }
+            if (tokenService.isTokenValid(refreshTokenString, user)){
                 Map<String, String> newTokenPair = tokenService.generateTokenPair(user);
                 String newAccessToken = newTokenPair.get("access_token");
                 String newRefreshToken = newTokenPair.get("refresh_token");

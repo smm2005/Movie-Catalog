@@ -13,6 +13,11 @@ public interface TokenRepository extends JpaRepository<Token, Long>{
     
     @Modifying
     @Transactional
+    @Query("UPDATE tokens t SET t.revoked = 1 WHERE t.userId = ?1")
+    void revokeToken(Long userId);
+
+    @Modifying
+    @Transactional
     @Query("UPDATE tokens t SET t.token = ?1 WHERE t.userId = ?2")
     void updateRefreshToken(String newToken, Long userId);
 }

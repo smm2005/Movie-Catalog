@@ -32,8 +32,15 @@ public class Token implements Persistable<Long> {
     @Column(name="userId", nullable=false)
     private Long userId;
 
+    @Column(name="revoked", nullable=false)
+    private boolean revoked;
+
     public boolean isNew(){
         return this.id == null;
+    }
+
+    public boolean isRevoked(){
+        return revoked == true;
     }
 
 }
