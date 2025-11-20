@@ -65,11 +65,15 @@ function Register () {
                        onChange={handleNameChange}
                        name="realname" />
                 
+                <br></br>
+
                 <label>Email: </label>
                 <input type="text"
                        value={email}
                        onChange={handleEmailChange}
                        name="email" />
+
+                <br></br>
 
                 <label>Username: </label>
                 <input type="text"
@@ -77,11 +81,15 @@ function Register () {
                        onChange={handleUsernameChange}
                        name="username" />
 
+                <br></br>
+
                 <label>Password: </label>
                 <input type="password"
                        value={password}
                        onChange={handlePasswordChange}
                        name="password" />
+
+                <br></br>
 
                 <label>Confirm Password: </label>
                 <input type="password" 
@@ -89,6 +97,7 @@ function Register () {
                        onChange={handleConfirmChange}
                        name="confirm" />
 
+                <br></br>
 
                 <input type="submit" value="Register"/>
             </form>

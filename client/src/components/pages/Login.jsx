@@ -45,8 +45,13 @@ function Login(){
             <form action={handleLogin}>
                 <label>Username: </label>
                 <input type="text" value={username} onChange={handleUsernameChange} />
+
+                <br></br>
+
                 <label>Password: </label>
                 <input type="password" value={password} onChange={handlePasswordChange} />
+                <br></br>
+                
                 <button type="submit">Submit</button>
             </form>
             <p>New user? Sign up <button onClick={() => window.location.href="/register"}>here</button></p>
