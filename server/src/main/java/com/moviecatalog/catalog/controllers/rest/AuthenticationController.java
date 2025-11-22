@@ -49,6 +49,10 @@ public class AuthenticationController {
         try{
             Optional<User> currentUser = userRepository.findByUsername(tokenService.extractUsername(accessToken));
             if (currentUser.isPresent()){
+                Token refreshToken = tokenRepository.findByUserId(currentUser.get().getId());
+                if (refreshToken.isRevoked()){
+                    return ResponseEntity.badRequest().body("User is not logged in");
+                }
                 AuthenticationResponse tokenResponse = AuthenticationResponse.builder().token(accessToken).build();
                 return ResponseEntity.ok(tokenResponse);
             }

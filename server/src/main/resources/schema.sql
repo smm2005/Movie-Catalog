@@ -33,6 +33,6 @@ create table if not exists TOKENS(
     token varchar(1000) not null,
     expiry timestamp not null,
     userId bigint not null,
-    revoked bit
+    revoked int not null
 )
     

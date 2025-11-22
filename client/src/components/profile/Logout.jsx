@@ -1,11 +1,12 @@
 import {useState, useEffect} from 'react';
 
 
-function Logout(props){
+function Logout(){
     
     const [loggedOut, setLoggedOut] = useState(false);
+    const jwtToken = localStorage.getItem("jwtToken")
 
-    const logout = (username) => {
+    const logout = () => {
         fetch('http://localhost:8080/api/logout', {
             method: 'POST',
             headers: {
@@ -14,7 +15,7 @@ function Logout(props){
                 'Access-Control-Allow-Headers': '*'
             },
             body: JSON.stringify({
-                username: username
+                token: jwtToken
             })
         })
         .then(res => res.json())
@@ -23,7 +24,7 @@ function Logout(props){
     }
 
     useEffect(() => {
-        logout(props.username)
+        logout()
     }, [])
 
     return (
@@ -34,3 +35,5 @@ function Logout(props){
     )
 
 }
+
+export default Logout;

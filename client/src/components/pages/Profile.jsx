@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import User from '../profile/User'
 import Favourites from '../profile/Favourites'
 import Recommendations from '../profile/Recommendations'
@@ -42,6 +43,7 @@ function Profile(){
         isLoading ? <p> Loading... </p> :
         <div>
             <User name={name} username={username} pfp={pfp} />
+            <Link to="/logout" username={username}>Log Out</Link>
             <Favourites />
             <Recommendations />
         </div>
