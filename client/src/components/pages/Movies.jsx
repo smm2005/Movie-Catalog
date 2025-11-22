@@ -74,10 +74,12 @@ function Movies(){
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`,
                 'Access-Control-Allow-Headers': '*',
                 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH'
-            }
+            },
+            body: JSON.stringify({
+                username: localStorage.getItem("username")
+            })
         })
         .then(res => res.json())
         .then(json => {

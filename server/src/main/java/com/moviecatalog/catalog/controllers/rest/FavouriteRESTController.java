@@ -84,15 +84,14 @@ public class FavouriteRESTController {
     }
 
     @PostMapping(params="id")
-    public ResponseEntity<Favourite> addMovieToFavourites(@RequestParam("id") int movieId, @RequestHeader(HttpHeaders.AUTHORIZATION) String accessToken){
+    public ResponseEntity<Favourite> addMovieToFavourites(@RequestParam("id") int movieId, @RequestBody UsernameRecord usernameRecord){
         Favourite favourite = new Favourite();
-        
+        String username = usernameRecord.username();
+
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", accessToken);
-        HttpEntity<User> userEntity = new HttpEntity<User>(headers);
         HttpEntity<Movie> movieEntity = new HttpEntity<Movie>(headers);
 
-        User currentUser = rest.exchange("http://localhost:8080/api/user", HttpMethod.GET, userEntity, User.class).getBody();
+        User currentUser = userRepository.findByUsername(username).get();
         Movie movie = rest.exchange("http://localhost:8080/api/movies?id={id}", HttpMethod.GET, movieEntity, Movie.class, movieId).getBody();
 
         favourite.setDate(new Date());
@@ -101,5 +100,7 @@ public class FavouriteRESTController {
 
         return ResponseEntity.ok(favouriteRepository.save(favourite));
     }
+
+    public record UsernameRecord(String username){};
 
 }

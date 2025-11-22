@@ -8,6 +8,7 @@ function Login(){
 
     function handleUsernameChange(e){
         setUsername(e.target.value)
+        localStorage.setItem("username", username)
     }
 
     function handlePasswordChange(e){
