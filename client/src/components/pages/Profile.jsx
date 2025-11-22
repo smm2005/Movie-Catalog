@@ -43,7 +43,7 @@ function Profile(){
         isLoading ? <p> Loading... </p> :
         <div>
             <User name={name} username={username} pfp={pfp} />
-            <Link to="/logout" username={username}>Log Out</Link>
+            <Link to="/logout">Log Out</Link>
             <Favourites />
             <Recommendations />
         </div>

@@ -24,10 +24,9 @@ public interface MovieRepository extends JpaRepository<Movie, Long>{
     Movie findByGenre(String genre);
 
     ArrayList<Movie> findFirst5ByRating(float rating);
+    ArrayList<Movie> findFirst50ByRatingBetween(float lower, float upper);
     ArrayList<Movie> findFirst5ByPopularity(float popularity);
     ArrayList<Movie> findFirst5ByGenre(String genre);
     ArrayList<Movie> findFirst5ByTitleContainingIgnoreCase(String title);
-
-    
     
 }
