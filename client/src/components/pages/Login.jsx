@@ -8,7 +8,6 @@ function Login(){
 
     function handleUsernameChange(e){
         setUsername(e.target.value)
-        localStorage.setItem("username", username)
     }
 
     function handlePasswordChange(e){
@@ -30,6 +29,7 @@ function Login(){
         })
         .then(res => res.json())
         .then(data => {
+            localStorage.setItem("username", username)
             localStorage.setItem("jwtToken", data.token)
             console.log(data)
         })

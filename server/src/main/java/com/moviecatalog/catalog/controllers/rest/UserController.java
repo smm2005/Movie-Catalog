@@ -2,6 +2,7 @@ package com.moviecatalog.catalog.controllers.rest;
 
 import com.moviecatalog.catalog.user.User;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,10 +37,9 @@ public class UserController {
         this.tokenService = tokenService;
     }
 
-    @GetMapping
-    public ResponseEntity<User> getCurrentUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String accessToken){
-        String realAccessToken = accessToken.split(" ")[1];
-        String username = tokenService.extractUsername(realAccessToken);
+    @PostMapping
+    public ResponseEntity<User> getCurrentUser(@RequestBody UsernameRecord usernameRecord){
+        String username = usernameRecord.username();
         return ResponseEntity.ok(userRepository.findByUsername(username).get());
     }
 
@@ -56,5 +58,6 @@ public class UserController {
         userRepository.deleteById(Integer.toUnsignedLong(ident));
     }
 
+    public record UsernameRecord(String username) {}
     public record NamesRecord(String realname, String username) {}
 }

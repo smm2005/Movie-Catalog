@@ -12,6 +12,22 @@ function Movies(){
 
     let styles={
 
+        header: {
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-between"
+        },
+
+        search: {
+            fontFamily: "system-ui, Avenir, Helvetica, Arial, sans-serif",
+            height: "20px",
+            width: "200px",
+            borderRadius: "50px",
+            margin: 0,
+            padding: "2px",
+            resize: "none"
+        },
+
         paragraph: {
             display: "inline-block",
             width: "200px",
@@ -39,7 +55,6 @@ function Movies(){
         fetch(`http://localhost:8080/api/movies?page=${p}&search=${text}`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`,
                 'Access-Control-Allow-Headers': '*',
                 'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE'
             }
@@ -57,7 +72,6 @@ function Movies(){
         fetch(`http://localhost:8080/api/movies/count?search=${text}`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`,
                 'Access-Control-Allow-Headers': '*',
                 'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE'
             }
@@ -124,12 +138,18 @@ function Movies(){
     return (
         isLoading ? <p>Loading...</p> :
         <>
-            <button onClick={() => setPage(page-1)}>&lt;</button>
-            <p style={styles.paragraph}>Page: {page} of {totalPages}</p>
-            <button onClick={() => setPage(page+1)}>&gt;</button>
+            <div className="header" style={styles.header}>
+                <div className="pageSelect">
+                    <button onClick={() => setPage(page-1)}>&lt;</button>
+                    <p style={styles.paragraph}>Page: {page} of {totalPages}</p>
+                    <button onClick={() => setPage(page+1)}>&gt;</button>
+                </div>
 
-            <Link to="/profileauth">{localStorage.getItem("username")}</Link>
-            <textarea value={terms} onChange={setKeywords}></textarea>
+                <textarea value={terms} onChange={setKeywords} style={styles.search}></textarea>
+
+                <Link to="/profileauth">{localStorage.getItem("username")}</Link>
+            </div>
+
 
             <div className="catalog" style={styles.catalog}>
                 {movieCatalog}
