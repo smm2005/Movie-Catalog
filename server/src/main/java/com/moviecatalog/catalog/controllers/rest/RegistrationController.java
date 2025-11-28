@@ -1,6 +1,7 @@
 package com.moviecatalog.catalog.controllers.rest;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import com.moviecatalog.catalog.user.RegistrationForm;
 import com.moviecatalog.catalog.user.User;
 import com.moviecatalog.catalog.service.TokenService;
 
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,9 +45,14 @@ public class RegistrationController {
     private TokenRepository tokenRepository;
 
     @PostMapping
-    public ResponseEntity<Void> registerUser(@RequestBody RegistrationForm form) {
+    public ResponseEntity<String> registerUser(@Valid @RequestBody RegistrationForm form) {
         @Valid User newUser = form.toUser(passwordEncoder);
-        userRepository.save(newUser);
-        return ResponseEntity.ok().build();
+        try{
+            userRepository.save(newUser);
+            return ResponseEntity.ok("User has been registered");
+        }
+        catch (ConstraintViolationException exception){
+            return ResponseEntity.badRequest().body(exception.getLocalizedMessage());
+        }
     }
 }

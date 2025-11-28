@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { Navigate } from "react-router-dom";
 
@@ -33,7 +33,7 @@ function Register () {
         if (password != confirm){
             console.log("ERROR: Confirmation needs to be the same as password")
         }
-        else{
+        else {
             fetch(`http://localhost:8080/api/register`, {
                 method: "POST",
                 headers: {
@@ -45,15 +45,19 @@ function Register () {
                     realname: name,
                     email: email,
                     username: username,
-                    password: password,
+                    password: password
                 })
             })
-            .then(response => response.json())
-            .then(json => {
-                console.log(json);
+            .then(response => response.text())
+            .then(text => {
+                console.log(text)
+                if (text == "User has been registered") {
+                    window.location.href = "/login"
+                }
             })
-            .catch((error) => console.error(error))
-            .finally(() => window.location.href = "/login")
+            .catch((error) => {
+                console.error(error)
+            })
         }
     }
 

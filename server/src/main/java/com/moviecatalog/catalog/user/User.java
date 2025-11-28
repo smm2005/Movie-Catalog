@@ -40,20 +40,23 @@ public class User implements UserDetails, Persistable<Long>{
 
     @NotNull
     @Column(name="realname", nullable=false, updatable=false)
+    @Size(min=1, max=130, message="Name is too short or too long")
     private final String realname;
 
     @NotNull
     @Email(message="Invalid email")
+    @Size(min=5, max=100, message="Email is too short or too long")
     @Column(name="email")
     private final String email;
 
     @NotNull
     @Column(name="username")
+    @Size(min=1, max=50, message="Username must be at least 1 character long and at most 50 characters long")
     private final String username;
 
     @NotNull
-    @Size(min=8, message="Password must be at least 8 characters long")
     @Column(name="password")
+    @Size(min=8, message="Password must be at least 8 characters long")
     private final String password;
 
     @OneToMany(mappedBy = "user", cascade=CascadeType.ALL)

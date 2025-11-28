@@ -60,7 +60,7 @@ public class MovieRecommender {
     }
 
     public List<Movie> getTopFiveRecs(){
-        double averageRating = getAverageRating();
+        double averageRating = getAverageRating() > 0.0 ? getAverageRating() : 8.5;
         float lower = (float) Math.floor(averageRating);
         float upper = (float) Math.ceil(averageRating);
         List<Movie> movies = movieRepository

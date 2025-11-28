@@ -1,0 +1,20 @@
+services:
+  client:
+    build:
+      context: client
+      dockerfile: Dockerfile
+    expose:
+      - "5173"
+    depends_on:
+      - server
+  
+  server:
+    build:
+      context: server
+      dockerfile: Dockerfile
+    expose:
+      - "8080"
+
+
+      
+
