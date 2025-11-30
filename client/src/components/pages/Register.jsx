@@ -8,6 +8,9 @@ function Register () {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirm, setConfirm] = useState("");
+    
+    const [alert, setAlert] = useState("");
+    const [activated, setActivated] = useState(false);
 
     function handleNameChange(e){
         setName(e.target.value);
@@ -56,12 +59,16 @@ function Register () {
                 }
             })
             .catch((error) => {
+                setActivated(true);
+                setAlert(error);
                 console.error(error)
             })
         }
     }
 
     return (
+        <div className="register">
+            <h3>Sign Up</h3>
             <form action={registerUser}>
                 <label>Name: </label>
                 <input type="text" 
@@ -103,8 +110,9 @@ function Register () {
 
                 <br></br>
 
-                <input type="submit" value="Register"/>
+                <button type="submit">Register</button>
             </form>
+        </div>
     )
 }
 

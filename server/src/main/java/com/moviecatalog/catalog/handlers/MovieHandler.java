@@ -1,14 +1,19 @@
 package com.moviecatalog.catalog.handlers;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.util.Scanner;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
 import com.moviecatalog.catalog.movie.*;
+
+import io.jsonwebtoken.io.IOException;
 
 public class MovieHandler {
     public ArrayList<Movie> movies = new ArrayList<Movie>();
@@ -35,13 +40,14 @@ public class MovieHandler {
         return score;
     }
 
-    public ArrayList<Movie> getMoviesFromFile(){
+    public ArrayList<Movie> getMoviesFromFile() {
         try{
-            File file = new File("9000plus.csv");
-            Scanner reader = new Scanner(file);
-            reader.nextLine();
-            while (reader.hasNextLine()){
-                String[] data = reader.nextLine().split(",(?=(?:[^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)", -1);
+            InputStream inputStream = getClass().getResourceAsStream("/9000plus.csv");
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String currentLine;
+            bufferedReader.readLine();
+            while ((currentLine = bufferedReader.readLine()) != null){
+                String[] data = currentLine.split(",(?=(?:[^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)", -1);
                 MovieBuilder movieBuilder = new MovieBuilder(data[0], data[1]);
                 String genre = data[7].replace("\"", "");
                 Movie movie = movieBuilder.description(data[2])
@@ -54,10 +60,10 @@ public class MovieHandler {
                                           .build();
                 movies.add(movie);
             }
-            reader.close();
+            bufferedReader.close();
             return movies;
         }
-        catch (FileNotFoundException e){
+        catch (java.io.IOException e){
             e.printStackTrace();
             return null;
         }

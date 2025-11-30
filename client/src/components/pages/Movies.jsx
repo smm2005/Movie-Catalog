@@ -4,9 +4,9 @@ import { Link, Navigate } from 'react-router-dom';
 function Movies(){
     const [isLoading, setLoading] = useState(true)
     const [data, setData] = useState([])
-    const [page, setPage] = useState(0)
+    const [page, setPage] = useState(1)
     const [terms, setTerms] = useState("")
-    const [totalPages, setTotalPages] = useState(327);
+    const [totalPages, setTotalPages] = useState(328);
 
     const jwtToken = localStorage.getItem("jwtToken")
 
@@ -48,11 +48,22 @@ function Movies(){
             margin: 0,
             padding: "2%",
             width: "250px",
+        },
+
+        settings: {
+            display: "block",
+            margin: 0,
+            width: "150px"
+        },
+
+        button: {
+            margin: 0,
+            visibility: "hidden"
         }
     }
    
     const load = (p, text) => {
-        fetch(`http://localhost:8080/api/movies?page=${p}&search=${text}`, {
+        fetch(`http://localhost:8080/api/movies?page=${p-1}&search=${text}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Headers': '*',
@@ -78,7 +89,7 @@ function Movies(){
         })
         .then(response => response.json())
         .then(json => {
-            setTotalPages(Math.ceil(json / 30))
+            setTotalPages(Math.ceil(json / 30) + 1)
         })
         .catch(err => console.error(err))
     }
@@ -106,6 +117,10 @@ function Movies(){
         setTerms(event.target.value);
     }
 
+    const toggleSettings = () => {
+        
+    }
+
     useEffect(() => {
         getPageCount(terms)
         const loadCond = () => {
@@ -113,8 +128,8 @@ function Movies(){
                 load(totalPages, terms)
                 
             }
-            else if (page <= 0){
-                load(0, terms)
+            else if (page < 1){
+                load(1, terms)
             }
             else{
                 load(page, terms)
@@ -140,13 +155,15 @@ function Movies(){
         <>
             <div className="header" style={styles.header}>
                 <div className="pageSelect">
-                    <button onClick={() => setPage(page-1)}>&lt;</button>
+                    { page <= 0 ? <></> :
+                    <button onClick={() => setPage(page-1)}>&lt;</button> }
                     <p style={styles.paragraph}>Page: {page} of {totalPages}</p>
-                    <button onClick={() => setPage(page+1)}>&gt;</button>
+                    { page >= 329 ? <></> :
+                    <button onClick={() => setPage(page+1)}>&gt;</button> }
                 </div>
 
                 <textarea value={terms} onChange={setKeywords} style={styles.search}></textarea>
-
+                
                 <Link to="/profileauth">{localStorage.getItem("username")}</Link>
             </div>
 

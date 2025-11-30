@@ -42,7 +42,8 @@ function Login(){
     }
 
     return (
-        <>
+        <div className="login">
+            <h3>Sign In</h3>
             <form action={handleLogin}>
                 <label>Username: </label>
                 <input type="text" value={username} onChange={handleUsernameChange} />
@@ -55,8 +56,8 @@ function Login(){
                 
                 <button type="submit">Submit</button>
             </form>
-            <p>New user? Sign up <button onClick={() => window.location.href="/register"}>here</button></p>
-        </>
+            <p>New user? Sign up <a onClick={() => window.location.href="/register"}>here</a></p>
+        </div>
     )
 
 }

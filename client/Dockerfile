@@ -2,9 +2,9 @@ FROM node:24-alpine
 
 WORKDIR /app/client
 
-COPY package*.json ./
+COPY package*.json .
 RUN npm install
 COPY . .
-EXPOSE 5173
+EXPOSE 80
 
-CMD ["npm", "run", "dev"]
+ENTRYPOINT ["npm", "run", "dev"]

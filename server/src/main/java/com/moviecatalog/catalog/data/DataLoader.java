@@ -27,7 +27,6 @@ public class DataLoader implements ApplicationRunner{
         for (Movie movie : movies) {
             movieRepository.save(movie);
         }
-        // userRepository.save(new User("John Doe", "jdoe@hotmail.ca", "john_doe", "1234"));
     }
 
 }

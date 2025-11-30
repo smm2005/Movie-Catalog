@@ -56,7 +56,7 @@ function Recommendations(){
         loading ? <p> Loading ... </p> :
         <>
             <div className="recs" style={styles.recommendations}>
-                {recommendations}
+                {recommendations.length > 0 ? recommendations : <p>No recommendations found</p>}
             </div>
         </>
     )

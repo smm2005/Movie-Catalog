@@ -3,17 +3,30 @@ services:
     build:
       context: client
       dockerfile: Dockerfile
-    expose:
-      - "5173"
+    tty: true
+    ports:
+      - 5173:80
     depends_on:
       - server
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./package-lock.json
+          action: rebuild
+        - path: ./eslint.config.js
+          action: rebuild
+        - path: .
+          target: /app/client
+          action: sync
+
   
   server:
     build:
       context: server
       dockerfile: Dockerfile
-    expose:
-      - "8080"
+    ports:
+      - 8080:80
 
 
       

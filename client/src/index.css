@@ -1,11 +1,12 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Kedebideri", sans-serif;
   line-height: 1.5;
-  font-weight: 400;
+  font-weight: 300;
+  font-style: light;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-image: linear-gradient(#0c1014, #121921, #182533);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,12 +16,12 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: aliceblue;
   text-decoration: inherit;
 }
 
 a:hover {
-  color: #535bf2;
+  color: #b7bdc4;
 }
 
 body {
@@ -34,6 +35,36 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+.login{
+  display: block;
+  margin: auto;
+  width: 300px;
+  padding-left: 5%;
+  padding-right: 5%;
+  border: aliceblue solid 1px;
+  border-radius: 50px;
+}
+
+.login button{
+  border: 0.5px solid aliceblue;
+  margin: 5%;
+}
+
+.register{
+  display: block;
+  margin: auto;
+  width: 500px;
+  padding-left: 2%;
+  padding-right: 2%;
+  border: aliceblue solid 1px;
+  border-radius: 50px;
+}
+
+.register button {
+  border: 0.5px solid aliceblue;
+  margin: 5%;
 }
 
 button {

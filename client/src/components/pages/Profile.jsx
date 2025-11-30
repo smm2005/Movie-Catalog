@@ -42,9 +42,12 @@ function Profile(){
     return(
         isLoading ? <p> Loading... </p> :
         <div>
-            <div className="userSettings">
+            <div className="userHeader">
                 <User name={name} username={username} pfp={pfp} />
-                <Link to="/logout">Log Out</Link>
+                <div className="userSetting">
+                    <Link to="/logout">Log Out</Link>
+                    <Link to="/movieauth">Back To Movies</Link>
+                </div>
             </div>
             <div className="favourites">
                 <h2>Based on your favourites: </h2>
