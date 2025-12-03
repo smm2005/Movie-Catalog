@@ -1,14 +1,16 @@
 package com.moviecatalog.catalog.controllers.rest;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,12 +42,6 @@ public class RegistrationController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private TokenRepository tokenRepository;
-
     @PostMapping
     public ResponseEntity<String> registerUser(@Valid @RequestBody RegistrationForm form) {
         @Valid User newUser = form.toUser(passwordEncoder);
@@ -53,10 +49,10 @@ public class RegistrationController {
             userRepository.save(newUser);
             return ResponseEntity.ok("User has been registered");
         }
-        catch (ConstraintViolationException exception){
-            Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
-            String firstConstraintViolation = constraintViolations.toArray()[0].toString();
-            return ResponseEntity.badRequest().body(firstConstraintViolation);
+        catch (TransactionSystemException exception){
+            ConstraintViolationException currentException = (ConstraintViolationException) exception.getRootCause();
+            ConstraintViolation<?> firstConstraintViolation = (ConstraintViolation<?>) currentException.getConstraintViolations().toArray()[0];
+            return ResponseEntity.badRequest().body(firstConstraintViolation.getMessage());
         }
     }
 }

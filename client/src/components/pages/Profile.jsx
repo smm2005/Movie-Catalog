@@ -39,14 +39,23 @@ function Profile(){
         getUser()
     }, [])
 
+    let styles = {
+        settings: {
+            display: "flex",
+            justifyContent: "space-evenly",
+            margin: "auto",
+            padding: "2%"
+        }
+    }
+
     return(
         isLoading ? <p> Loading... </p> :
         <div>
             <div className="userHeader">
                 <User name={name} username={username} pfp={pfp} />
-                <div className="userSetting">
-                    <Link to="/logout">Log Out</Link>
-                    <Link to="/movieauth">Back To Movies</Link>
+                <div className="userSetting" style={styles.settings}>
+                    <Link to="/logout"><u>Log Out</u></Link>
+                    <Link to="/movieauth"><u>Back To Movies</u></Link>
                 </div>
             </div>
             <div className="favourites">

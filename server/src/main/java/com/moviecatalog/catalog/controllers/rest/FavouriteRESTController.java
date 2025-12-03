@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpEntity;
@@ -20,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,14 +65,14 @@ public class FavouriteRESTController {
 
     @GetMapping
     public Iterable<Favourite> getAllFavourites() {
-        return favouriteRepository.findAll();
+        return favouriteRepository.findFirst5ByOrderByIdDesc();
     }
     
     @GetMapping(params="movie")
     public Favourite getFavouriteGivenMovie(@RequestParam int movie){
         Long movieId = Integer.toUnsignedLong(movie);
         Movie currentMovie = movieRepository.findById(movieId).get();
-        return favouriteRepository.findByMovie(currentMovie);
+        return favouriteRepository.findByMovie(currentMovie).get();
     }
 
     @GetMapping(params="page")
@@ -100,6 +102,22 @@ public class FavouriteRESTController {
 
         return ResponseEntity.ok(favouriteRepository.save(favourite));
     }
+
+    @DeleteMapping(params={"id"})
+    public ResponseEntity<?> deleteMovieFromFavourites(@RequestParam("id") int movieId, @RequestBody UsernameRecord usernameRecord){
+
+        Long currentMovieId = Integer.toUnsignedLong(movieId);
+        try{
+            Movie currentMovie = movieRepository.findById(currentMovieId).get();
+            Favourite associatedFavourite = favouriteRepository.findByMovie(currentMovie).get();
+            favouriteRepository.removeFavourite(associatedFavourite.getId());
+            return ResponseEntity.ok("Favourite has been removed");
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body("Error occured in favourite removal");
+        }
+    }
+
 
     public record UsernameRecord(String username){};
 

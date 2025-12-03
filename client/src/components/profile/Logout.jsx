@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-
+import { Link } from 'react-router-dom'; 
 
 function Logout(){
     
@@ -31,6 +31,7 @@ function Logout(){
         !loggedOut ? <p>Logging out...</p> :
         <>
             <h1>You have been logged out.</h1>
+            <Link to="/"><u>Return To Home Page</u></Link>
         </>
     )
 

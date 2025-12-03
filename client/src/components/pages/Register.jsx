@@ -63,6 +63,7 @@ function Register () {
                 setAlert(error);
                 console.error(error)
             })
+            .finally(() => {})
         }
     }
 
@@ -109,6 +110,13 @@ function Register () {
                        name="confirm" />
 
                 <br></br>
+
+                {activated ?
+                    <div className="validation">
+                        <h4>ERROR: {alert}</h4> 
+                    </div> 
+                    : <></> 
+                }
 
                 <button type="submit">Register</button>
             </form>

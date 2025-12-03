@@ -48,7 +48,7 @@ function Favourites(){
 
     const movieFavourites = favourites?.map(favourite => {
         return (
-            <Movie style={styles.movie} movie={favourite.movie}/>
+            <Movie style={styles.movie} movie={favourite.movie} isFavourite={true}></Movie>
         )
     })
 

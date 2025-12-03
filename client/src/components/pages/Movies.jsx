@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import Movie from '../Movie';
 
 function Movies(){
     const [isLoading, setLoading] = useState(true)
     const [data, setData] = useState([])
     const [page, setPage] = useState(1)
     const [terms, setTerms] = useState("")
-    const [totalPages, setTotalPages] = useState(328);
+    const [totalPages, setTotalPages] = useState(328)
+
+    const [favouriteToggle, setFavouriteToggle] = useState("Add to favourites")
 
     const jwtToken = localStorage.getItem("jwtToken")
 
@@ -94,31 +97,8 @@ function Movies(){
         .catch(err => console.error(err))
     }
 
-    const setFavourite = (id) => {
-        fetch(`http://localhost:8080/api/favourites?id=${id}`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Headers': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH'
-            },
-            body: JSON.stringify({
-                username: localStorage.getItem("username")
-            })
-        })
-        .then(res => res.json())
-        .then(json => {
-            console.log(json)
-        })
-        .catch(err => console.error(err))
-    }
-
     const setKeywords = (event) => {
         setTerms(event.target.value);
-    }
-
-    const toggleSettings = () => {
-        
     }
 
     useEffect(() => {
@@ -137,16 +117,10 @@ function Movies(){
         }
         loadCond()
     }, [page, terms, totalPages]);
-    
+
     const movieCatalog = data.map(movie => {
         return (
-        <div className="movie" style={styles.movie}>
-            <img src={movie.poster_url} alt={movie.title} height="200px" width="150px"></img>
-            <p>{movie.title}</p>
-            <p>{movie.releaseDate}</p>
-            <p>{movie.rating}</p>
-            <button onClick={() => setFavourite(movie.id)}>Add to favourites</button>
-        </div>
+            <Movie style={styles.movie} movie={movie} isFavourite={false}></Movie>
         )
     })
 
@@ -155,10 +129,10 @@ function Movies(){
         <>
             <div className="header" style={styles.header}>
                 <div className="pageSelect">
-                    { page <= 0 ? <></> :
+                    { page <= 1 ? <></> :
                     <button onClick={() => setPage(page-1)}>&lt;</button> }
                     <p style={styles.paragraph}>Page: {page} of {totalPages}</p>
-                    { page >= 329 ? <></> :
+                    { page >= totalPages ? <></> :
                     <button onClick={() => setPage(page+1)}>&gt;</button> }
                 </div>
 

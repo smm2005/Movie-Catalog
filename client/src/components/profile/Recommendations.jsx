@@ -48,7 +48,7 @@ function Recommendations(){
 
     const recommendations = recs?.map(movie => {
         return (
-            <Movie style={styles.movie} movie={movie} />
+            <Movie style={styles.movie} movie={movie} isFavourite={true}/>
         )
     })
 

@@ -66,7 +66,7 @@ public class MovieRecommender {
         List<Movie> movies = movieRepository
                .findFirst50ByRatingBetween(lower, upper)
                .stream()
-               .filter((movie) -> (favouriteRepository.findByMovie(movie) == null))
+               .filter((movie) -> (favouriteRepository.findByMovie(movie).isEmpty()))
                .sorted((mov1, mov2) -> Double.compare(getAngleBetween(mov1), getAngleBetween(mov2)))
                .collect(Collectors.toList())
                .subList(0, 5);
