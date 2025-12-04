@@ -51,28 +51,28 @@ public class AuthenticationController {
             if (currentUser.isPresent()){
                 Token refreshToken = tokenRepository.findByUserId(currentUser.get().getId());
                 if (refreshToken.isRevoked()){
-                    return ResponseEntity.badRequest().body("User is not logged in");
+                    return ResponseEntity.badRequest().body("Token valid: User is not logged in");
                 }
                 AuthenticationResponse tokenResponse = AuthenticationResponse.builder().token(accessToken).build();
                 return ResponseEntity.ok(tokenResponse);
             }
             else{
-                return ResponseEntity.badRequest().body("User has not been registered");
+                return ResponseEntity.badRequest().body("Token valid: User has not been registered");
             }
         }
         catch (MalformedJwtException e){
-            return ResponseEntity.badRequest().body("User has not been registered");
+            return ResponseEntity.badRequest().body("Token malformed: User has not been registered");
         }
         catch (ExpiredJwtException e){
             Optional<User> currentUser = userRepository.findByUsername(e.getClaims().getSubject());
             if (currentUser.isEmpty()){
-                return ResponseEntity.badRequest().body("User has not been registered");
+                return ResponseEntity.badRequest().body("Token expired: User has not been registered");
             }
             User user = currentUser.get();
             Token refreshToken = tokenRepository.findByUserId(user.getId());
             String refreshTokenString = refreshToken.getToken();
             if (refreshToken.isRevoked()){
-                return ResponseEntity.badRequest().body("User is not logged in");
+                return ResponseEntity.badRequest().body("Token expired: User is not logged in");
             }
             if (tokenService.isTokenValid(refreshTokenString, user)){
                 Map<String, String> newTokenPair = tokenService.generateTokenPair(user);
