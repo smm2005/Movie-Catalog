@@ -9,8 +9,6 @@ function Movies(){
     const [terms, setTerms] = useState("")
     const [totalPages, setTotalPages] = useState(328)
 
-    const [favouriteToggle, setFavouriteToggle] = useState("Add to favourites")
-
     const jwtToken = localStorage.getItem("jwtToken")
 
     let styles={
@@ -101,39 +99,33 @@ function Movies(){
         setTerms(event.target.value);
     }
 
-    useEffect(() => {
-        getPageCount(terms)
-        const loadCond = () => {
-            if (page > totalPages){
-                load(totalPages, terms)
-                
-            }
-            else if (page < 1){
-                load(1, terms)
-            }
-            else{
-                load(page, terms)
-            }
-        }
-        loadCond()
-    }, [page, terms, totalPages]);
-
     const movieCatalog = data.map(movie => {
         return (
-            <Movie style={styles.movie} movie={movie} isFavourite={false}></Movie>
+            <Movie key={movie.id} style={styles.movie} movie={movie} isFavourite={false}></Movie>
         )
     })
+
+    useEffect(() => {
+        getPageCount(terms)
+        if (page > totalPages){
+            load(totalPages, terms)        
+        }
+        else if (page < 1){
+            load(1, terms)
+        }
+        else{
+            load(page, terms)
+        }
+    }, [page, terms, totalPages]);
 
     return (
         isLoading ? <p>Loading...</p> :
         <>
             <div className="header" style={styles.header}>
                 <div className="pageSelect">
-                    { page <= 1 ? <></> :
-                    <button onClick={() => setPage(page-1)}>&lt;</button> }
+                    { (page > 1) && <button onClick={() => setPage(page-1)}>&lt;</button> }
                     <p style={styles.paragraph}>Page: {page} of {totalPages}</p>
-                    { page >= totalPages ? <></> :
-                    <button onClick={() => setPage(page+1)}>&gt;</button> }
+                    { (page < totalPages) && <button onClick={() => setPage(page+1)}>&gt;</button> }
                 </div>
 
                 <textarea value={terms} onChange={setKeywords} style={styles.search}></textarea>

@@ -4,7 +4,6 @@ function Movie(props){
 
     const [buttonText, setButtonText] = useState("Add to favourites")
     const [isFavourite, setExistsFavourite] = useState(false)
-    const [modified, setModified] = useState(false)
     const [verified, setVerified] = useState(false)
 
     const setFavourite = (id) => {
@@ -24,7 +23,7 @@ function Movie(props){
             console.log(json)
         })
         .catch(err => console.error(err))
-        .finally(() => setModified(true))
+        .finally(() => setExistsFavourite(true))
     }
 
     const deleteFavourite = (id) => {
@@ -44,7 +43,7 @@ function Movie(props){
             console.log(text)
         })
         .catch(err => console.error(err))
-        .finally(() => setModified(true))
+        .finally(() => setExistsFavourite(false))
     
     }
 
@@ -60,11 +59,13 @@ function Movie(props){
         .then(res => res.text())
         .then(body => {
             if (body == "true") {
-                setExistsFavourite(true)
+                console.log(id + " Movie is a favourite")
                 setButtonText("Remove from favourites")
+                setExistsFavourite(true)
             } else {
-                setExistsFavourite(false)
+                console.log(id + " Movie is not a favourite")
                 setButtonText("Add to favourites")
+                setExistsFavourite(false)
             }
         })
         .finally(() => setVerified(true))
@@ -72,27 +73,27 @@ function Movie(props){
 
     useEffect(() => {
         verifyFavourite(props.movie.id)
-    }, [verified, isFavourite, buttonText, modified])
+    }, [verified, isFavourite, buttonText])
 
     function handleButtonClick(e){
         e.preventDefault();
-        if (verified){
-            if (isFavourite){
-                deleteFavourite(props.movie.id)
-            }
-            else {
-                setFavourite(props.movie.id)
-            }
+        if (isFavourite){
+            setButtonText("Remove from favourites")
+            deleteFavourite(props.movie.id)
+        }
+        else {
+            setFavourite(props.movie.id)
+            setButtonText("Add to favourites")
         }
     }
 
     return (
-        <div className="movie" style={props.style}>
+        <div className={`movie-${props.movie.id}`} style={props.style}>
             <img src={props.movie.poster_url} alt={props.movie.title} height="200px" width="150px"></img>
             <p>{props.movie.title}</p>
             <p>{props.movie.releaseDate}</p>
             <p>{props.movie.rating}</p>
-            {!props.isFavourite ? <button onClick={handleButtonClick}>{verified && buttonText}</button> : <></> }
+            {!props.isFavourite && <button onClick={handleButtonClick}>{verified && buttonText}</button>}
         </div>
     )
 }
