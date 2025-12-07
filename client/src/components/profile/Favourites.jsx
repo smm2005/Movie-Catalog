@@ -22,7 +22,7 @@ function Favourites(){
     }
 
     const getFavourites = () => {
-        fetch(`http://localhost:8080/api/favourites`, {
+        fetch(`http://localhost:8080/api/favourites/first`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',

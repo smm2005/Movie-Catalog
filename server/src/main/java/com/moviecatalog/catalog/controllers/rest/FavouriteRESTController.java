@@ -64,7 +64,12 @@ public class FavouriteRESTController {
     RestTemplate rest = new RestTemplate();
 
     @GetMapping
-    public Iterable<Favourite> getAllFavourites() {
+    public Iterable<Favourite> getAllFavourites(){
+        return favouriteRepository.findAll();
+    }
+
+    @GetMapping(path="/first")
+    public Iterable<Favourite> getFirstFiveFavourites() {
         return favouriteRepository.findFirst5ByOrderByIdDesc();
     }
     
