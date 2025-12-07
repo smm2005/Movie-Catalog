@@ -77,7 +77,7 @@ public class FavouriteRESTController {
 
     @GetMapping(params="page")
     public Iterable<Favourite> getFavouritesGivenPageNumber(@RequestParam int page){
-        return favouriteRepository.findAll(PageRequest.of(page, 30)).getContent();
+        return favouriteRepository.findAll(PageRequest.of(page, 5)).getContent();
     }
 
     @GetMapping(params="user")

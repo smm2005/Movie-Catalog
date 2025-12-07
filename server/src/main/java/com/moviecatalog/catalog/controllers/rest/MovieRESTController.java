@@ -4,6 +4,8 @@ import com.moviecatalog.catalog.movie.Movie;
 import com.moviecatalog.catalog.movie.Favourite;
 import com.moviecatalog.catalog.user.User;
 
+import java.util.ArrayList;
+
 import org.apache.catalina.connector.Response;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -57,7 +59,13 @@ public class MovieRESTController {
 
     @GetMapping(params={"page", "search"})
     public Iterable<Movie> getMoviesGivenSearch(@RequestParam int page, @RequestParam String search){
-        return movieRepository.findByTitleContainingIgnoreCase(search, PageRequest.of(page, 30)).getContent();
+        try{
+            return movieRepository.findByTitleContainingIgnoreCase(search, PageRequest.of(page, 30)).getContent();
+        }
+        catch (Exception e){
+            ArrayList<Movie> emptyMovies = new ArrayList<Movie>();
+            return emptyMovies;
+        }
     }
 
     @GetMapping(params={"id"})

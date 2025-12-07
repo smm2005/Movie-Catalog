@@ -21,8 +21,8 @@ function Favourites(){
         }
     }
 
-    const getFavourites = (page) => {
-        fetch(`http://localhost:8080/api/favourites?page=${page}`, {
+    const getFavourites = () => {
+        fetch(`http://localhost:8080/api/favourites`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ function Favourites(){
     }
 
     useEffect(() => {
-        getFavourites(0)
+        getFavourites()
     }, [])
 
     const movieFavourites = favourites?.map(favourite => {

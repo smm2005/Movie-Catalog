@@ -59,7 +59,7 @@ function Profile(){
                 </div>
             </div>
             <div className="favourites">
-                <h2>Based on your favourites: </h2>
+                <h2>Based on your 5 most recent favourites: </h2>
                 <Favourites />
             </div>
             <div className="recs">

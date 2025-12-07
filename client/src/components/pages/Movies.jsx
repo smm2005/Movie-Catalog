@@ -31,7 +31,7 @@ function Movies(){
 
         paragraph: {
             display: "inline-block",
-            width: "200px",
+            width: "100px",
             position: "relative",
             margin: 0,
             padding: 0,
@@ -60,6 +60,24 @@ function Movies(){
         button: {
             margin: 0,
             visibility: "hidden"
+        },
+
+        pageSelect: {
+            position: "relative",
+            top: "20%",
+            left: "5%",
+            margin: 0,
+            padding: "5px",
+            width: "30px",
+            height: "15px",
+            borderRadius: "50px",
+            resize: "none",
+            overflow: "hidden"
+        },
+
+        pageHeader: {
+            display: "inline-block",
+            width: "500px"
         }
     }
    
@@ -90,7 +108,7 @@ function Movies(){
         })
         .then(response => response.json())
         .then(json => {
-            setTotalPages(Math.ceil(json / 30) + 1)
+            setTotalPages(Math.ceil(json / 30))
         })
         .catch(err => console.error(err))
     }
@@ -107,7 +125,7 @@ function Movies(){
 
     useEffect(() => {
         getPageCount(terms)
-        if (page > totalPages){
+        if (page >= totalPages){
             load(totalPages, terms)        
         }
         else if (page < 1){
@@ -122,9 +140,10 @@ function Movies(){
         isLoading ? <p>Loading...</p> :
         <>
             <div className="header" style={styles.header}>
-                <div className="pageSelect">
+                <div className="pageSelect" style={styles.pageHeader}>
                     { (page > 1) && <button onClick={() => setPage(page-1)}>&lt;</button> }
-                    <p style={styles.paragraph}>Page: {page} of {totalPages}</p>
+                    <textarea value={page} onChange={(e) => setPage(e.target.value)} style={styles.pageSelect}></textarea>
+                    <p style={styles.paragraph}> of {totalPages} </p>
                     { (page < totalPages) && <button onClick={() => setPage(page+1)}>&gt;</button> }
                 </div>
 
@@ -135,7 +154,7 @@ function Movies(){
 
 
             <div className="catalog" style={styles.catalog}>
-                {movieCatalog}
+                {data.length > 0 ? movieCatalog : <p>No movies found</p>}
             </div>
         </>
     )

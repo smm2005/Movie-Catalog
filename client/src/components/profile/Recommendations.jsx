@@ -10,15 +10,14 @@ function Recommendations(){
     let styles={
 
         recommendations: {
-            display: "inline-flex",
-            flexWrap: "wrap",
-            gridGap: "1.5em"
+            display: "flex",
+            justifyContent: "space-evenly"
         },
 
         movie: {
             display: "block",
             margin: 0,
-            padding: "2%",
+            padding: "1%",
             width: "250px",
         }
     }
