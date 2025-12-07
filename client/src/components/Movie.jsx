@@ -93,7 +93,7 @@ function Movie(props){
             <p>{props.movie.title}</p>
             <p>{props.movie.releaseDate}</p>
             <p>{props.movie.rating}</p>
-            {!props.isFavourite && <button onClick={handleButtonClick}>{verified && buttonText}</button>}
+            {props.includeFavourite && <button onClick={handleButtonClick}>{verified && buttonText}</button>}
         </div>
     )
 }

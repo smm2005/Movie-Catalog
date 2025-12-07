@@ -101,7 +101,7 @@ function Movies(){
 
     const movieCatalog = data.map(movie => {
         return (
-            <Movie key={movie.id} style={styles.movie} movie={movie} isFavourite={false}></Movie>
+            <Movie key={movie.id} style={styles.movie} movie={movie} includeFavourite={true}></Movie>
         )
     })
 
