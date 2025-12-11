@@ -82,7 +82,7 @@ function Movies(){
     }
    
     const load = (p, text) => {
-        fetch(`http://localhost:8080/api/movies?page=${p-1}&search=${text}`, {
+        fetch(`http://localhost:8080/api/movies?page=${isNaN(p-1) ? 0 : p-1}&search=${text}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Headers': '*',
