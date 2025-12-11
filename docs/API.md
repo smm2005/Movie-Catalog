@@ -18,6 +18,10 @@ Accesses all favourites from every registered user in the application.
 
 Accesses the first 5 favourites from every registered user in the application.
 
+Request body:
+
+`
+
 > GET /api/favourites?movie={id}`
 
 Retrieves a favourite based on the existence of a movie in the favourite repository. This API endpoint uses an ID parameter to refer to the movie's ID.

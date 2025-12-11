@@ -76,19 +76,13 @@ function Register () {
                     setAlert(text)
                 }
             })
-            .catch((error) => {
-                setAlert(error)
-            })
+            .catch((error) => console.log(error))
             .finally(() => {
                 setActivated(true)
                 clearForm()
             })
         }
     }
-
-    useEffect(() => {
-        console.log(alert)
-    }, [alert])
 
     return (
         <div className="register">

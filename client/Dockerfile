@@ -1,10 +1,10 @@
-FROM node:24-alpine
+FROM node:24.9.0-alpine
 
 WORKDIR /app/client
 
-COPY package*.json .
+COPY package*.json ./
 RUN npm install
 COPY . .
-EXPOSE 80
+EXPOSE 5000
 
-ENTRYPOINT ["npm", "run", "dev"]
+CMD ["npm", "run", "dev"]
