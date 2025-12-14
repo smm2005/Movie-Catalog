@@ -3,6 +3,8 @@ services:
     build:
       context: client
       dockerfile: Dockerfile
+    depends_on:
+      - server
     ports:
       - "5173:5000"
     volumes:
@@ -10,13 +12,13 @@ services:
       - /app/client/node_modules
     develop:
       watch:
-        - path: ./package.json
+        - path: ./client/package.json
           action: rebuild
-        - path: ./package-lock.json
+        - path: ./client/package-lock.json
           action: rebuild
-        - path: ./eslint.config.js
+        - path: ./client/eslint.config.js
           action: rebuild
-        - path: .
+        - path: ./client
           target: /app/client
           action: sync
   
@@ -27,7 +29,7 @@ services:
     volumes:
       - ./server:/app/server
     ports:
-      - "8080:80"
+      - "8080:3000"
 
 
 

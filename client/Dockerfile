@@ -2,9 +2,8 @@ FROM node:24.9.0-alpine
 
 WORKDIR /app/client
 
-COPY package*.json ./
-RUN npm install
 COPY . .
+RUN npm install
 EXPOSE 5000
 
-CMD ["npm", "run", "dev"]
+ENTRYPOINT ["npm", "run", "dev", "--host", "0.0.0.0"]
