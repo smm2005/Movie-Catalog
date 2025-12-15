@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import Error from '../Error';
 
 function Login(){
     
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [activated, setActivated] = useState(false)
+    const [message, setMessage] = useState("")
 
     function handleUsernameChange(e){
         setUsername(e.target.value)
@@ -32,13 +35,13 @@ function Login(){
             localStorage.setItem("username", username)
             localStorage.setItem("jwtToken", data.token)
             console.log(data)
+            window.location.href = "/movies"
         })
         .catch(err => {
             console.log(err)
+            setMessage("Failed to login")
         })
-        .finally(() => {
-            window.location.href = "/movies";
-        })
+        .finally(() => setActivated(true))
     }
 
     return (
@@ -57,6 +60,7 @@ function Login(){
                 <button type="submit">Submit</button>
             </form>
             <p>New user? Sign up <a onClick={() => window.location.href="/register"}>here</a></p>
+            {activated && <Error message={message}></Error>}
         </div>
     )
 

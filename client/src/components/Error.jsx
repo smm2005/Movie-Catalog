@@ -14,7 +14,7 @@ export default function Error(props){
 
     return (
         <div className="error" style={styles.error}>
-            <p>ERROR: {props.message}</p>
+            {props.message !== "" && <p>ERROR: {props.message}</p>}
         </div>
     )
 }
