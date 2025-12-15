@@ -10,6 +10,10 @@ The major languages that I have used for this project are JavaScript, for client
 
 Besides the client and server, there also exists the H2 in-memory database powered by the server, with queries for set-up and modification written in SQL.
 
+## How To Setup Application on Local Machine
+
+See the Setup.md document in the "docs" folder for more information
+
 ## Screenshots
 
 ![Landing Page](docs/screenshots/landingpage.png)
