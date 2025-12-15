@@ -16,7 +16,7 @@ Besides the client and server, there also exists the H2 in-memory database power
 
 ![Catalog Page 1](docs/screenshots/catalogpage1.png)
 
-![Catalog Page 2](docs/screenshots/catalogpage2.png)
+![Catalog Page 2](docs/screenshots/catalogpage20.png)
 
 ![Catalog Search 1](docs/screenshots/catalogsearch1.png)
 
