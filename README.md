@@ -6,6 +6,8 @@ This project is a movie catalog, designed for users to interact with and select 
 
 ## Languages and Tools Used
 
+![Languages and Tools Used](https://skillicons.dev/icons?i=java,javascript,react,spring,bash,vite)
+
 The major languages that I have used for this project are JavaScript, for client-side programming and Java, for server-side programming. For JavaScript, I made use of the React library and Vite build tool in order to develop the client with an object oriented and reactive focus. The Vite build tool was needed since support for configuring a React application alone through `create-react-app` was deprecated. As for the server, I made use of the Spring Boot framework in order to make a web application through Java. Java was selected as the language, particularly due to it's object-oriented nature and so that I can better understand the importance of object-oriented programming in building web applications. 
 
 Besides the client and server, there also exists the H2 in-memory database powered by the server, with queries for set-up and modification written in SQL.
